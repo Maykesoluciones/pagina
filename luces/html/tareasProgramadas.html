@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <title>Tareas-Programadas</title>
+  <title>Luces Casa</title>
   <meta name="description" content="Admin, Dashboard, Bootstrap, Bootstrap 4, Angular, AngularJS" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,13 +19,9 @@
   <link rel="stylesheet" href="../assets/font-awesome/css/font-awesome.min.css" type="text/css" />
   <link rel="stylesheet" href="../assets/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
   <link rel="stylesheet" href="../assets/material-design-icons/material-design-icons.css" type="text/css" />
-    
+
   <link rel="stylesheet" href="../assets/tareas-estilos/taeasEstilo.css" type="text/css" />
   
-  
-  
-  <!-- archivos de RELOJ -->
-
   <!-- build:css ../assets/styles/app.min.css -->
   <link rel="stylesheet" href="../assets/styles/app.css" type="text/css" />
   <!-- endbuild -->
@@ -71,8 +67,9 @@
                 </a>
               </li>
 
+              
               <li>
-                <a href="tareasProgramadas.html" >
+                <a href="programaLuces.html" >
                   <span class="nav-icon">
                     <i class="material-icons">&#xe5c3;
                       <span ui-include="'../assets/images/i_1.svg'"></span>
@@ -83,6 +80,7 @@
                 <ul class="nav-sub">
                 </ul>
               </li>
+
 
             </ul>
           </nav>
@@ -165,6 +163,16 @@
         </div>
       </div>
 
+      <a class="nav-link" href=""../"">
+        <span class="hidden-xs-down btn btn-sm rounded danger text-u-c _600">
+          Sign Up
+        </span>
+        <span class="hidden-sm-up btn btn-sm btn-icon rounded danger">
+          <i class="material-icons"></i>
+        </span>
+      </a>
+
+
       <div class="app-footer">
         <div class="p-2 text-xs">
           <div class="nav">
@@ -186,7 +194,7 @@
         <div class="p-a white lt box-shadow">
           <div class="row">
             <div class="col-sm-6">
-              <h3 class="mb-0 _300">PROGRAMA DE LAMPARAS</h3>
+              <h3 class="mb-0 _300">Programa lampara.</h3>
               <small class="text-muted">CONTROL <strong>v1.0.0</strong> Luces Martha</small>
             </div>
           </div>
@@ -196,82 +204,65 @@
 
         <div class="padding">
           <div class="row">
-            <div class="col-xs-6 col-sm-7">
+            <div class="col-xs-6 col-sm-8">
+
+              <div class="box p-a">
+                <label class="md-switch">
+                  <input onchange="sw6_change_TAREA()" type="checkbox" class="has-value" id="display_sw1">
+                  <i class="blue"></i>
+                  <span id="display_ALARMA_bt_6">LAMPARA SEIS desactivado</span>
+                </label>
 
 
-          
-      <!--TAREAS PROGRAMADAS POR TIEMPO -->
-
-
-
-          <div class="wrapper">
-
-            <div class="box p-a">
-              <label class="md-switch">
-                <input onchange="sw6_change_TAREA()" type="checkbox" class="has-value" id="display_sw6_TAREA">
-                <i class="blue"></i>
-                <span id="display_ALARMA_bt_6">LAMPARA SEIS desactivado</span>
-              </label>
-        </div>
-
-            <div class="content">
-
-              <div class="p-a white lt box-shadow">
-                <div class="row">
-                  <div class="col-sm-6">
-                    <small class="">TIEMPO <strong>ENCENDER</strong></small>
-                  </div>
+                <div class="content">
+                          
+                    <small class="">TIEMPO <strong>ENCENDER &nbsp;</strong></small>
+           
+                    <div class="column">
+                      <select >
+                        <option  id="horas_6_on" value="horas_6_on" selected disabled hidden >Hora</option>
+                      </select >
+                    </div>
+                    <div class="column">
+                      <select>
+                        <option id="minutos_6_on" value="minutos_6_on" selected disabled hidden>Minutos</option>
+                      </select>
+                    </div>
+                    <div class="column">
+                      <select>
+                        <option id="formato_6_on" value="formato_6_on" selected disabled hidden>AM/PM</option>
+                      </select>
+                    </div>
                 </div>
-              </div>
 
-              <div class="column">
-                <select >
-                  <option  id="horas_6_on" value="horas_6_on" selected disabled hidden >Hora</option>
-                </select >
-              </div>
-              <div class="column">
-                <select>
-                  <option id="minutos_6_on" value="minutos_6_on" selected disabled hidden>Minutos</option>
-                </select>
-              </div>
-              <div class="column">
-                <select>
-                  <option id="formato_6_on" value="formato_6_on" selected disabled hidden>AM/PM</option>
-                </select>
-              </div>
-            </div>
+            
 
-
-            <div class="content">
-
-              <div class="p-a white lt box-shadow">
-                <div class="row">
-                  <div class="col-sm-6">
-                    <small class="">TIEMPO <strong>APAGADO</strong></small>
+                <div class="content">
+                    
+                    <small class="">TIEMPO <strong>APAGADO &nbsp;</strong></small>
+      
+                    <div class="column">
+                      <select >
+                        <option  id="horas_6_off" value="horas_6_off" selected disabled hidden >Hora</option>
+                      </select >
+                    </div>
+                    <div class="column">
+                      <select>
+                        <option id="minutos_6_off" value="minutos_6_off" selected disabled hidden>Minutos</option>
+                      </select>
+                    </div>
+                    <div class="column">
+                      <select>
+                        <option id="formato_6_off" value="formato_6_off" selected disabled hidden>AM/PM</option>
+                      </select>
+                    </div>
                   </div>
-                </div>
-              </div>
 
-              <div class="column">
-                <select >
-                  <option  id="horas_6_off" value="horas_6_off" selected disabled hidden >Hora</option>
-                </select >
               </div>
-              <div class="column">
-                <select>
-                  <option id="minutos_6_off" value="minutos_6_off" selected disabled hidden>Minutos</option>
-                </select>
-              </div>
-              <div class="column">
-                <select>
-                  <option id="formato_6_off" value="formato_6_off" selected disabled hidden>AM/PM</option>
-                </select>
-              </div>
-            </div>
+            
 
 
-          </div>
-
+              
 
           <!-- CONFIG COLOR DE TEMA FONDO -->
           <div id="switcher">
@@ -346,6 +337,5 @@
         <!-- <script src="scripts/whatsApp.js"></script> -->
         
         
-      
       </body>
       </html>
