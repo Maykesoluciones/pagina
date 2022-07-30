@@ -112,7 +112,7 @@ const leerTextoCondicionado = (mensaje)=>{
   ///////////////////////////// SALIR ///////////////////////////////////
   
     if(mensaje.includes('salir')|| mensaje.includes('Salir')){
-        voz.text ="hasta la proxima ";
+        voz.text ="hasta la próxima";
       
         setTimeout(() => {
         window.location="https://maykesoluciones.com/luces/html/signin.html";
