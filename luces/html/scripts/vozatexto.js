@@ -109,6 +109,18 @@ const leerTextoCondicionado = (mensaje)=>{
         //voz.text = mensaje
     }  
   
+  ///////////////////////////// SALIR ///////////////////////////////////
+  
+    if(mensaje.includes('salir')|| mensaje.includes('Salir')){
+        voz.text ="hasta la proxima ";
+      
+        setTimeout(() => {
+        window.location="https://maykesoluciones.com/luces/html/signin.html";
+        },1500);      
+    }else{
+        //voz.text = mensaje
+    } 
+  
 ////////////////////////////////// lamparassss ////////////////////////////////////////////////////  
  
     if(mensaje.includes('lámpara 1 prender') || mensaje.includes('lámpara 1 encender') || mensaje.includes('encender lámpara uno') || mensaje.includes('encender lámpara 1')){
