@@ -89,7 +89,7 @@ var ably = new Ably.Realtime(username+':'+password);
   }
   };
 
-function tiempo_exit();
+tiempo_exit();
 function tiempo_exit(){
 
   setTimeout(() => {
