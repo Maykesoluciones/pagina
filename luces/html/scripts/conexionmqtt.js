@@ -60,7 +60,7 @@ var ably = new Ably.Realtime(username+':'+password);
         localStorage.setItem("conteo", "0")  
         console.log("vas para fuera")
         entrarPagina = localStorage.getItem("entrar_pagina");
-        funtion tiempo_exit();
+        tiempo_exit();
       }
 
 
