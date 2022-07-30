@@ -60,7 +60,7 @@ var ably = new Ably.Realtime(username+':'+password);
         localStorage.setItem("conteo", "0")  
         console.log("vas para fuera")
         entrarPagina = localStorage.getItem("entrar_pagina");
-        setTimeout();
+        funtion tiempo_exit();
       }
 
 
@@ -89,7 +89,8 @@ var ably = new Ably.Realtime(username+':'+password);
   }
   };
 
-
+function tiempo_exit();
+function tiempo_exit(){
 
   setTimeout(() => {
     console.log("tiempo de autorizacion ok");
@@ -103,7 +104,7 @@ var ably = new Ably.Realtime(username+':'+password);
       window.location="https://maykesoluciones.com/luces/html/signin.html";
     }
     },2000);
-
+}
 
 
   //////////////////////////////////////////////
