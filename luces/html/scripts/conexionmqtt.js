@@ -93,6 +93,11 @@ var ably = new Ably.Realtime(username+':'+password);
   };
 
 if(display_conexion_fuera == "Desconectado"){
+    let autorizo = "false";
+    localStorage.setItem("entrar_pagina", autorizo)  
+    localStorage.setItem("conteo", "0")  
+    console.log("vas para fuera")
+    entrarPagina = localStorage.getItem("entrar_pagina");
     tiempo_exit();
 }
 
