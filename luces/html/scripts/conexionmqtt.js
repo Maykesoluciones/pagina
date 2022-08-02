@@ -5,6 +5,7 @@
 var entrar_pagina ;
 var entrarpaginaWEB;
 var entrarPagina = localStorage.getItem("entrar_pagina");
+var display_conexion_fuera = "Desconectado";
 console.log(entrarPagina);
 
 var conteo_refres;
@@ -46,6 +47,8 @@ var ably = new Ably.Realtime(username+':'+password);
 
     if(conex == "Conectado" || conex == "Desconectado"){
       document.getElementById("display_conexion").innerHTML = conex;
+        
+      display_conexion_fuera = "ok";
 
       let conteo_acomulado = localStorage.getItem("conteo");
       conteo_refres = Number(conteo_acomulado);
@@ -54,7 +57,7 @@ var ably = new Ably.Realtime(username+':'+password);
       console.log(conteo_string);
       localStorage.setItem("conteo", conteo_string)  
 
-      if(conteo_refres == 10){
+      if(conteo_refres == 10 ){
         let autorizo = "false";
         localStorage.setItem("entrar_pagina", autorizo)  
         localStorage.setItem("conteo", "0")  
@@ -88,6 +91,10 @@ var ably = new Ably.Realtime(username+':'+password);
     }
   }
   };
+
+if(display_conexion_fuera == "Desconectado"){
+    tiempo_exit();
+}
 
 tiempo_exit();
 function tiempo_exit(){
