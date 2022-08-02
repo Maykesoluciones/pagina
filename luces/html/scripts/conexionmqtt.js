@@ -56,7 +56,7 @@ var ably = new Ably.Realtime(username+':'+password);
       console.log(conteo_string);
       localStorage.setItem("conteo", conteo_string)  
 
-      if(conteo_refres == 10 ){
+      if(conteo_refres == 10 || conex == "Desconectado"){
         let autorizo = "false";
         localStorage.setItem("entrar_pagina", autorizo)  
         localStorage.setItem("conteo", "0")  
@@ -64,7 +64,6 @@ var ably = new Ably.Realtime(username+':'+password);
         entrarPagina = localStorage.getItem("entrar_pagina");
         tiempo_exit();
       }
-
 
       var channel = ably.channels.get(topic_raiz+"/dato/reloj");
       
@@ -105,8 +104,9 @@ function tiempo_exit(){
     else{
       window.location="https://maykesoluciones.com/luces/html/signin.html";
     }
-    },2000);
-    
+    },2000);  
+}
+
   if(display_conexion == "Desconectado"){
     let autorizo = "false";
     localStorage.setItem("entrar_pagina", autorizo)  
@@ -115,9 +115,6 @@ function tiempo_exit(){
     entrarPagina = localStorage.getItem("entrar_pagina");
     tiempo_exit();
 }  
-    
-    
-}
 
 
   //////////////////////////////////////////////
