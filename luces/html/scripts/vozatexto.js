@@ -93,7 +93,7 @@ const leerTextoCondicionado = (mensaje)=>{
       
 
               
-        voz.text = 'Mi nombre es, ayudante de Voz'
+        voz.text = 'Mi nombre es, Ely, tu asistente de Voz'
       
     }else{
         //voz.text = mensaje
