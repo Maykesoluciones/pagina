@@ -102,7 +102,7 @@ function tiempo_exit(){
       localStorage.setItem("entrar_pagina", autorizo)  
     }
     else{
-      window.location="https://maykesoluciones.com/luces/html/signin.html";
+      window.location="https://maykesoluciones.github.io/luces/html/signin.html";
     }
     },2000);  
 }
