@@ -117,7 +117,7 @@ var ably = new Ably.Realtime(username+':'+password);
   tecla_es =event.keyCode;
   
   if(tecla_es == 13){
-  function validar();
+  validar();
   }
   
   }
