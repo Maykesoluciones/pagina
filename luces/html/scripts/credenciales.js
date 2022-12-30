@@ -109,3 +109,15 @@ var ably = new Ably.Realtime(username+':'+password);
     // window.location=enlase_final;
     // setTimeout(function(){mostrarAviso()},3000); // 3000ms = 3s
 }
+
+  //////////////////////////////////////////////
+  
+  function presionar_tecla(){
+  
+  tecla_es =event.keyCode;
+  
+  if(tecla_es == 13){
+  function validar();
+  }
+  
+  }
