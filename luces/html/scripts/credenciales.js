@@ -118,6 +118,9 @@ var ably = new Ably.Realtime(username+':'+password);
   
   if(tecla_es == 13){
   validar();
+   }
   }
+  window.onkeydown = presionar_tecla;
   
-  }
+  
+  
