@@ -2,8 +2,8 @@
 
 url = "https://realtime.ably.io/event-stream?";
 version = "1.2"
-username = "VRDsGQ.B_CYIQ";
-password = "dPUOfDfiuRQrRSX9wt1fcYc9v-AKBdGQa2jTP60_D5g";
+  username = "QLTmug.ldqIyQ";
+  password = "F57OdMEvI0r1R6ZEzasbjy6YOEpUqyrYi3djkW7OC5M";
 topic_raiz = "mami";
 topic_conexion = "/conexion";
 topic_autenticacion = "/autenticacion";
