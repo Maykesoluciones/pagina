@@ -35,35 +35,35 @@ var channel = ably.channels.get(topic_raiz+"/horasProgrmadas"); //topic
   };
 
   var estado_switch6_tarea;
-  var hora_on_6_recibe;
-  var minutos_on_6_recibe;
-  var formato_on_6_recibe;
-  var hora_off_6_recibe;
-  var minutos_off_6_recibe;
-  var formato_off_6_recibe;
+  var hora_on_3_recibe;
+  var minutos_on_3_recibe;
+  var formato_on_3_recibe;
+  var hora_off_3_recibe;
+  var minutos_off_3_recibe;
+  var formato_off_3_recibe;
 
-  let hora_on_6_compara;
-  let minutos_on_6_compara;
-  let formato_on_6_compara;
-  let hora_off_6_compara;
-  let minutos_off_6_compara;
-  let formato_off_6_compara;
+  let hora_on_3_compara;
+  let minutos_on_3_compara;
+  let formato_on_3_compara;
+  let hora_off_3_compara;
+  let minutos_off_3_compara;
+  let formato_off_3_compara;
 
-  let hora_on_6_guardada;
-  let minutos_on_6_guardada;
-  let formato_on_6_guardada;
-  let hora_off_6_guardada;
-  let minutos_off_6_guardada;
-  let formato_off_6_guardada;
+  let hora_on_3_guardada;
+  let minutos_on_3_guardada;
+  let formato_on_3_guardada;
+  let hora_off_3_guardada;
+  let minutos_off_3_guardada;
+  let formato_off_3_guardada;
   var time_off;
 
 let  isAlarmSet;
 
 ///////////////////////////////////////////////////////////
 
-function sw6_change_TAREA(){  
+function sw3_change_TAREA(){  
      
-    if ($('#display_sw6_TAREA').is(":checked")){
+    if ($('#display_sw3_TAREA').is(":checked")){
         setAlarm(); 
     }else{
         setAlarm(); 
@@ -109,77 +109,77 @@ for (let i = 12; i > 0; i--) {
 function setAlarm() {
     if (isAlarmSet) {
         content.classList.remove("disable");
-        document.getElementById("display_ALARMA_bt_6").innerHTML ="LAMPARA SEIS desactivado";
-        var channel = ably.channels.get(topic_raiz+"/hora/recibe/programa/lampara6"); //topic
+        document.getElementById("display_ALARMA_bt_3").innerHTML ="LAMPARA frente desactivado";
+        var channel = ably.channels.get(topic_raiz+"/hora/recibe/programa/lampara3"); //topic
         channel.publish(clientId, "0"); 
         return isAlarmSet = false;
     }
 
-    hora_on_6_recibe;
-    minutos_on_6_recibe;
-    formato_on_6_recibe;
-    hora_off_6_recibe;
-    minutos_off_6_recibe;
-    formato_off_6_recibe;
+    hora_on_3_recibe;
+    minutos_on_3_recibe;
+    formato_on_3_recibe;
+    hora_off_3_recibe;
+    minutos_off_3_recibe;
+    formato_off_3_recibe;
 
 
-    hora_on_6_compara = `${selectMenu[0].value}`;
-    minutos_on_6_compara = `${selectMenu[1].value}`;
-    formato_on_6_compara = `${selectMenu[2].value}`;
-    hora_off_6_compara = `${selectMenu[3].value}`;
-    minutos_off_6_compara = `${selectMenu[4].value}`;
-    formato_off_6_compara = `${selectMenu[5].value}`;
+    hora_on_3_compara = `${selectMenu[0].value}`;
+    minutos_on_3_compara = `${selectMenu[1].value}`;
+    formato_on_3_compara = `${selectMenu[2].value}`;
+    hora_off_3_compara = `${selectMenu[3].value}`;
+    minutos_off_3_compara = `${selectMenu[4].value}`;
+    formato_off_3_compara = `${selectMenu[5].value}`;
 
-    if(hora_on_6_compara.includes("horas_6_on")){
-        hora_on_6_guardada = hora_on_6_recibe;
-    }else{hora_on_6_guardada=hora_on_6_compara;}
+    if(hora_on_3_compara.includes("horas_6_on")){
+        hora_on_3_guardada = hora_on_3_recibe;
+    }else{hora_on_3_guardada=hora_on_3_compara;}
 
-    if(minutos_on_6_compara.includes("minutos_6_on")){
-        minutos_on_6_guardada = minutos_on_6_recibe;
-    }else{minutos_on_6_guardada=minutos_on_6_compara;}
+    if(minutos_on_3_compara.includes("minutos_3_on")){
+        minutos_on_3_guardada = minutos_on_3_recibe;
+    }else{minutos_on_3_guardada=minutos_on_3_compara;}
 
-    if(formato_on_6_compara.includes("formato_6_on")){
-        formato_on_6_guardada = formato_on_6_recibe;
-    }else{formato_on_6_guardada=formato_on_6_compara;}
+    if(formato_on_3_compara.includes("formato_3_on")){
+        formato_on_3_guardada = formato_on_3_recibe;
+    }else{formato_on_3_guardada=formato_on_3_compara;}
 
-    if(hora_off_6_compara.includes("horas_6_off")){
-        hora_off_6_guardada = hora_off_6_recibe;
-    }else{hora_off_6_guardada=hora_off_6_compara;}
+    if(hora_off_3_compara.includes("horas_3_off")){
+        hora_off_3_guardada = hora_off_3_recibe;
+    }else{hora_off_3_guardada=hora_off_3_compara;}
 
-    if(minutos_off_6_compara.includes("minutos_6_off")){
-        minutos_off_6_guardada = minutos_off_6_recibe;
-    }else{minutos_off_6_guardada=minutos_off_6_compara;}
+    if(minutos_off_3_compara.includes("minutos_3_off")){
+        minutos_off_3_guardada = minutos_off_3_recibe;
+    }else{minutos_off_3_guardada=minutos_off_3_compara;}
 
-    if(formato_off_6_compara.includes("formato_6_off")){
-        formato_off_6_guardada = formato_off_6_recibe;
-    }else{formato_off_6_guardada=formato_off_6_compara;}
+    if(formato_off_3_compara.includes("formato_3_off")){
+        formato_off_3_guardada = formato_off_3_recibe;
+    }else{formato_off_3_guardada=formato_off_3_compara;}
     
-    if (hora_on_6_guardada.includes("horas_6_on") || minutos_on_6_guardada.includes("minutos_6_on") || formato_on_6_guardada.includes("formato_6_on") || hora_off_6_guardada.includes("horas_6_off") || minutos_off_6_guardada.includes("minutos_6_off") || formato_off_6_guardada.includes("formato_6_off")) {
-        $("#display_sw6_TAREA").prop('checked',"");
+    if (hora_on_3_guardada.includes("horas_3_on") || minutos_on_3_guardada.includes("minutos_3_on") || formato_on_3_guardada.includes("formato_3_on") || hora_off_3_guardada.includes("horas_3_off") || minutos_off_3_guardada.includes("minutos_3_off") || formato_off_3_guardada.includes("formato_3_off")) {
+        $("#display_sw3_TAREA").prop('checked',"");
         return alert("Por favor, seleccione una hora válida para configurar la ACTIVACION de sus Lamparas!");
     }
 
-    time_on_mqtt = `1,`+hora_on_6_guardada +`,`+ minutos_on_6_guardada + `,` + formato_on_6_guardada + `,`+ hora_off_6_guardada +`,`+ minutos_off_6_guardada + `,` + formato_off_6_guardada;
+    time_on_mqtt = `1,`+hora_on_3_guardada +`,`+ minutos_on_3_guardada + `,` + formato_on_3_guardada + `,`+ hora_off_3_guardada +`,`+ minutos_off_3_guardada + `,` + formato_off_3_guardada;
 
     isAlarmSet = true;
     content.classList.add("disable");
-    document.getElementById("display_ALARMA_bt_6").innerHTML ="LAMPARA SEIS activado";
+    document.getElementById("display_ALARMA_bt_3").innerHTML ="LAMPARA frente activado";
 
-    if(estado_switch6_tarea == "1"){ 
+    if(estado_switch3_tarea == "1"){ 
  
     }
     if(estado_switch6_tarea == "0"){ 
-        var channel = ably.channels.get(topic_raiz+"/hora/recibe/programa/lampara6"); //topic
+        var channel = ably.channels.get(topic_raiz+"/hora/recibe/programa/lampara3"); //topic
         channel.publish(clientId, time_on_mqtt); 
     }
 }
 
 //////////////////////////////////////////////
 
-var topic_datos_hora_prog_lamp6 = "/hora/envia/programa/lampara6";
+var topic_datos_hora_prog_lamp3 = "/hora/envia/programa/lampara3";
 
-var conexion_recibe_6 = url+'channels='+topic_raiz+topic_datos_hora_prog_lamp6+'&v='+version+'&key='+username+':'+password;
-var eventSource = new EventSource(conexion_recibe_6);
+var conexion_recibe_3 = url+'channels='+topic_raiz+topic_datos_hora_prog_lamp6+'&v='+version+'&key='+username+':'+password;
+var eventSource = new EventSource(conexion_recibe_3);
 
 eventSource.onmessage = function(event) {
   var message = JSON.parse(event.data);
@@ -189,30 +189,30 @@ eventSource.onmessage = function(event) {
 var decodedString = atob(message.data);
 console.log('Topic: ' + message.channel + '  Mensaje: ' + decodedString ); 
 
-if (topic == topic_raiz+topic_datos_hora_prog_lamp6){
+if (topic == topic_raiz+topic_datos_hora_prog_lamp3){
   var splitted = decodedString.toString().split(",");
-  estado_switch6_tarea = splitted[0];
-  hora_on_6_recibe = splitted[1];
-  minutos_on_6_recibe = splitted[2];
-  formato_on_6_recibe = splitted[3];
-  hora_off_6_recibe = splitted[4];
-  minutos_off_6_recibe = splitted[5];
-  formato_off_6_recibe = splitted[6];
+  estado_switch3_tarea = splitted[0];
+  hora_on_3_recibe = splitted[1];
+  minutos_on_3_recibe = splitted[2];
+  formato_on_3_recibe = splitted[3];
+  hora_off_3_recibe = splitted[4];
+  minutos_off_3_recibe = splitted[5];
+  formato_off_3_recibe = splitted[6];
 
- document.getElementById("horas_6_on").innerHTML = hora_on_6_recibe;
- document.getElementById("minutos_6_on").innerHTML = minutos_on_6_recibe;
- document.getElementById("formato_6_on").innerHTML = formato_on_6_recibe;
- document.getElementById("horas_6_off").innerHTML = hora_off_6_recibe;
- document.getElementById("minutos_6_off").innerHTML = minutos_off_6_recibe;
- document.getElementById("formato_6_off").innerHTML = formato_off_6_recibe;
+ document.getElementById("horas_3_on").innerHTML = hora_on_3_recibe;
+ document.getElementById("minutos_3_on").innerHTML = minutos_on_3_recibe;
+ document.getElementById("formato_3_on").innerHTML = formato_on_3_recibe;
+ document.getElementById("horas_3_off").innerHTML = hora_off_3_recibe;
+ document.getElementById("minutos_3_off").innerHTML = minutos_off_3_recibe;
+ document.getElementById("formato_3_off").innerHTML = formato_off_3_recibe;
 
- if(estado_switch6_tarea == "1"){ 
-    $("#display_sw6_TAREA").prop('checked', true); 
+ if(estado_switch3_tarea == "1"){ 
+    $("#display_sw3_TAREA").prop('checked', true); 
     isAlarmSet = true;
     content.classList.add("disable");
-    document.getElementById("display_ALARMA_bt_6").innerHTML ="LAMPARA SEIS activado";
+    document.getElementById("display_ALARMA_bt_3").innerHTML ="LAMPARA frente activado";
  }else{
-    $("#display_sw6_TAREA").prop('checked', ""); 
+    $("#display_sw3_TAREA").prop('checked', ""); 
     isAlarmSet = false;
     content.classList.remove("disable");
  }
