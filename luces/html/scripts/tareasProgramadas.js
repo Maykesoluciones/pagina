@@ -163,7 +163,7 @@ function setAlarm() {
 
     isAlarmSet = true;
     content.classList.add("disable");
-    document.getElementById("display_ALARMA_bt_3").innerHTML ="LAMPARA SEIS activado";
+    document.getElementById("display_ALARMA_bt_3").innerHTML ="LAMPARA frente activado";
 
     if(estado_switch3_tarea == "1"){ 
  
