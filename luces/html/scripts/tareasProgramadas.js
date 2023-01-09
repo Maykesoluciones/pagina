@@ -168,7 +168,7 @@ function setAlarm() {
     if(estado_switch3_tarea == "1"){ 
  
     }
-    if(estado_switch6_tarea == "0"){ 
+    if(estado_switch3_tarea == "0"){ 
         var channel = ably.channels.get(topic_raiz+"/hora/recibe/programa/lampara3"); //topic
         channel.publish(clientId, time_on_mqtt); 
     }
