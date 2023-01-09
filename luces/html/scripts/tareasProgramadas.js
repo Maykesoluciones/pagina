@@ -34,7 +34,7 @@ var channel = ably.channels.get(topic_raiz+"/horasProgrmadas"); //topic
   }
   };
 
-  var estado_switch6_tarea;
+  var estado_switch3_tarea;
   var hora_on_3_recibe;
   var minutos_on_3_recibe;
   var formato_on_3_recibe;
@@ -163,7 +163,7 @@ function setAlarm() {
 
     isAlarmSet = true;
     content.classList.add("disable");
-    document.getElementById("display_ALARMA_bt_3").innerHTML ="LAMPARA frente activado";
+    document.getElementById("display_ALARMA_bt_3").innerHTML ="LAMPARA SEIS activado";
 
     if(estado_switch3_tarea == "1"){ 
  
@@ -178,7 +178,7 @@ function setAlarm() {
 
 var topic_datos_hora_prog_lamp3 = "/hora/envia/programa/lampara3";
 
-var conexion_recibe_3 = url+'channels='+topic_raiz+topic_datos_hora_prog_lamp6+'&v='+version+'&key='+username+':'+password;
+var conexion_recibe_3 = url+'channels='+topic_raiz+topic_datos_hora_prog_lamp3+'&v='+version+'&key='+username+':'+password;
 var eventSource = new EventSource(conexion_recibe_3);
 
 eventSource.onmessage = function(event) {
