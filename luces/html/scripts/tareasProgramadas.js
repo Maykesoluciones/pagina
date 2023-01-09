@@ -130,7 +130,7 @@ function setAlarm() {
     minutos_off_3_compara = `${selectMenu[4].value}`;
     formato_off_3_compara = `${selectMenu[5].value}`;
 
-    if(hora_on_3_compara.includes("horas_6_on")){
+    if(hora_on_3_compara.includes("horas_3_on")){
         hora_on_3_guardada = hora_on_3_recibe;
     }else{hora_on_3_guardada=hora_on_3_compara;}
 
