@@ -17,6 +17,17 @@ topic_raiz = "pruebas";
 topic_conexion = "/conexion";
 topic_datos_lamparas = "/datos_lamparas";
 
+////////////ESTADOS INDIVIDUAL DE LAMPARAS 1,2,3,ETC
+
+topic_dato_lampara_1 = "/datolampara1";
+topic_dato_lampara_2 = "/datolampara2";
+topic_dato_lampara_3 = "/datolampara3";
+topic_dato_lampara_4 = "/datolampara4";
+topic_dato_lampara_5 = "/datolampara5";
+topic_dato_lampara_6 = "/datolampara6";
+topic_dato_lampara_7 = "/datolampara7";
+topic_dato_lampara_8 = "/datolampara8";
+
 // // Mensajes
 mensaje_inicial = "Desconectado";
 clientId = " WEB FAM-MERCADO--->> " + Math.floor(Math.random() * 1000000 + 1);
@@ -111,7 +122,8 @@ function tiempo_exit() {
       let autorizo = "true";
       localStorage.setItem("entrar_pagina", autorizo);
     } else {
-      window.location = "https://maykesoluciones.github.io/pagina/rele8/html/signin.html";
+      window.location =
+        "https://maykesoluciones.github.io/pagina/rele8/html/signin.html";
     }
   }, 2000);
 }
@@ -215,7 +227,288 @@ eventSource.onmessage = function (event) {
 };
 
 ////////////////////////////////////////////////////////
+///////////////// RECIBIR ESTADO INDIVIDUAL DE CADA LAMPARA ////////////////////////////
+////////////////////// LAMPARA UNO //////////////////////
+var conexion_LAMP_UNO =
+  url +
+  "channels=" +
+  topic_raiz +
+  topic_dato_lampara_1 +
+  "&v=" +
+  version +
+  "&key=" +
+  username +
+  ":" +
+  password;
+var eventSource = new EventSource(conexion_LAMP_UNO);
 
+eventSource.onmessage = function (event) {
+  var message = JSON.parse(event.data);
+
+  var topic = message.channel;
+  // Decodificar mensaje
+  var decodedString = atob(message.data);
+  console.log("Topic: " + message.channel + "  Mensaje: " + decodedString);
+
+  if (topic == topic_raiz + topic_dato_lampara_1) {
+    var splitted = decodedString.toString().split(",");
+    var switch1 = splitted[0];
+
+    if (switch1 == "1") {
+      $("#display_sw1").prop("checked", true);
+    } else {
+      $("#display_sw1").prop("checked", "");
+    }
+  }
+};
+////////////////////////////FIN LAMPARA UNO ////////////////////////////
+////////////////////// LAMPARA DOS //////////////////////
+
+var conexion_LAMP_DOS =
+  url +
+  "channels=" +
+  topic_raiz +
+  topic_dato_lampara_2 +
+  "&v=" +
+  version +
+  "&key=" +
+  username +
+  ":" +
+  password;
+var eventSource = new EventSource(conexion_LAMP_DOS);
+
+eventSource.onmessage = function (event) {
+  var message = JSON.parse(event.data);
+
+  var topic = message.channel;
+  // Decodificar mensaje
+  var decodedString = atob(message.data);
+  console.log("Topic: " + message.channel + "  Mensaje: " + decodedString);
+
+  if (topic == topic_raiz + topic_dato_lampara_2) {
+    var splitted = decodedString.toString().split(",");
+    var switch2 = splitted[0];
+
+    if (switch2 == "1") {
+      $("#display_sw2").prop("checked", true);
+    } else {
+      $("#display_sw2").prop("checked", "");
+    }
+  }
+};
+////////////////////////////FIN LAMPARA DOS ////////////////////////////
+////////////////////// LAMPARA DOS //////////////////////
+
+var conexion_LAMP_TRES =
+  url +
+  "channels=" +
+  topic_raiz +
+  topic_dato_lampara_3 +
+  "&v=" +
+  version +
+  "&key=" +
+  username +
+  ":" +
+  password;
+var eventSource = new EventSource(conexion_LAMP_TRES);
+
+eventSource.onmessage = function (event) {
+  var message = JSON.parse(event.data);
+
+  var topic = message.channel;
+  // Decodificar mensaje
+  var decodedString = atob(message.data);
+  console.log("Topic: " + message.channel + "  Mensaje: " + decodedString);
+
+  if (topic == topic_raiz + topic_dato_lampara_3) {
+    var splitted = decodedString.toString().split(",");
+    var switch3 = splitted[0];
+
+    if (switch3 == "1") {
+      $("#display_sw3").prop("checked", true);
+    } else {
+      $("#display_sw3").prop("checked", "");
+    }
+  }
+};
+////////////////////////////FIN LAMPARA TRES ////////////////////////////
+////////////////////// LAMPARA CUATRO //////////////////////
+
+var conexion_LAMP_CUATRO =
+  url +
+  "channels=" +
+  topic_raiz +
+  topic_dato_lampara_4 +
+  "&v=" +
+  version +
+  "&key=" +
+  username +
+  ":" +
+  password;
+var eventSource = new EventSource(conexion_LAMP_CUATRO);
+
+eventSource.onmessage = function (event) {
+  var message = JSON.parse(event.data);
+
+  var topic = message.channel;
+  // Decodificar mensaje
+  var decodedString = atob(message.data);
+  console.log("Topic: " + message.channel + "  Mensaje: " + decodedString);
+
+  if (topic == topic_raiz + topic_dato_lampara_4) {
+    var splitted = decodedString.toString().split(",");
+    var switch4 = splitted[0];
+
+    if (switch4 == "1") {
+      $("#display_sw4").prop("checked", true);
+    } else {
+      $("#display_sw4").prop("checked", "");
+    }
+  }
+};
+////////////////////////////FIN LAMPARA CUATRO ////////////////////////////
+////////////////////// LAMPARA CINCO //////////////////////
+
+var conexion_LAMP_CINCO =
+  url +
+  "channels=" +
+  topic_raiz +
+  topic_dato_lampara_5 +
+  "&v=" +
+  version +
+  "&key=" +
+  username +
+  ":" +
+  password;
+var eventSource = new EventSource(conexion_LAMP_CINCO);
+
+eventSource.onmessage = function (event) {
+  var message = JSON.parse(event.data);
+
+  var topic = message.channel;
+  // Decodificar mensaje
+  var decodedString = atob(message.data);
+  console.log("Topic: " + message.channel + "  Mensaje: " + decodedString);
+
+  if (topic == topic_raiz + topic_dato_lampara_5) {
+    var splitted = decodedString.toString().split(",");
+    var switch5 = splitted[0];
+
+    if (switch5 == "1") {
+      $("#display_sw5").prop("checked", true);
+    } else {
+      $("#display_sw5").prop("checked", "");
+    }
+  }
+};
+////////////////////////////FIN LAMPARA CINCO ////////////////////////////
+////////////////////// LAMPARA SIES //////////////////////
+
+var conexion_LAMP_SIES =
+  url +
+  "channels=" +
+  topic_raiz +
+  topic_dato_lampara_6 +
+  "&v=" +
+  version +
+  "&key=" +
+  username +
+  ":" +
+  password;
+var eventSource = new EventSource(conexion_LAMP_SIES);
+
+eventSource.onmessage = function (event) {
+  var message = JSON.parse(event.data);
+
+  var topic = message.channel;
+  // Decodificar mensaje
+  var decodedString = atob(message.data);
+  console.log("Topic: " + message.channel + "  Mensaje: " + decodedString);
+
+  if (topic == topic_raiz + topic_dato_lampara_6) {
+    var splitted = decodedString.toString().split(",");
+    var switch6 = splitted[0];
+
+    if (switch6 == "1") {
+      $("#display_sw6").prop("checked", true);
+    } else {
+      $("#display_sw6").prop("checked", "");
+    }
+  }
+};
+////////////////////////////FIN LAMPARA SIES ////////////////////////////
+////////////////////// LAMPARA SIETE //////////////////////
+
+var conexion_LAMP_SIETE =
+  url +
+  "channels=" +
+  topic_raiz +
+  topic_dato_lampara_7 +
+  "&v=" +
+  version +
+  "&key=" +
+  username +
+  ":" +
+  password;
+var eventSource = new EventSource(conexion_LAMP_SIETE);
+
+eventSource.onmessage = function (event) {
+  var message = JSON.parse(event.data);
+
+  var topic = message.channel;
+  // Decodificar mensaje
+  var decodedString = atob(message.data);
+  console.log("Topic: " + message.channel + "  Mensaje: " + decodedString);
+
+  if (topic == topic_raiz + topic_dato_lampara_7) {
+    var splitted = decodedString.toString().split(",");
+    var switch7 = splitted[0];
+
+    if (switch7 == "1") {
+      $("#display_sw7").prop("checked", true);
+    } else {
+      $("#display_sw7").prop("checked", "");
+    }
+  }
+};
+////////////////////////////FIN LAMPARA SIETE ////////////////////////////
+////////////////////// LAMPARA OCHO //////////////////////
+
+var conexion_LAMP_OCHO =
+  url +
+  "channels=" +
+  topic_raiz +
+  topic_dato_lampara_8 +
+  "&v=" +
+  version +
+  "&key=" +
+  username +
+  ":" +
+  password;
+var eventSource = new EventSource(conexion_LAMP_OCHO);
+
+eventSource.onmessage = function (event) {
+  var message = JSON.parse(event.data);
+
+  var topic = message.channel;
+  // Decodificar mensaje
+  var decodedString = atob(message.data);
+  console.log("Topic: " + message.channel + "  Mensaje: " + decodedString);
+
+  if (topic == topic_raiz + topic_dato_lampara_8) {
+    var splitted = decodedString.toString().split(",");
+    var switch8 = splitted[0];
+
+    if (switch8 == "1") {
+      $("#display_sw8").prop("checked", true);
+    } else {
+      $("#display_sw8").prop("checked", "");
+    }
+  }
+};
+////////////////////////////FIN LAMPARA OCHO ////////////////////////////
+
+////////////////////////// FIN RECIBIR ESTADO INDIVIDUAL LAMPARAS ///////////////////////////
 function sw1_change() {
   var channel = ably.channels.get(topic_raiz + "/actions/sw1");
 
