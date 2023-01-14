@@ -123,7 +123,7 @@ const leerTextoCondicionado = (mensaje)=>{
   
 ////////////////////////////////// lamparassss ////////////////////////////////////////////////////  
  
-    if(mensaje.includes('lámpara 1 prender') || mensaje.includes('lámpara 1 encender') || mensaje.includes('encender lámpara uno') || mensaje.includes('encender lámpara 1')){
+    if(mensaje.includes('baño principal encender') || mensaje.includes('encender baño principal') || mensaje.includes('encender lámpara baño principal') || mensaje.includes('prender lámpara baño principal')){
         voz.text = 'Listo!!!'
         var channel = ably.channels.get(topic_raiz+"/actions/sw1");
         channel.publish(clientId, "1"); 
@@ -132,7 +132,7 @@ const leerTextoCondicionado = (mensaje)=>{
         //voz.text = mensaje
     }
 
-    if(mensaje.includes('lámpara 1 Apagar') || mensaje.includes('lámpara 1 apagar') || mensaje.includes('Apagar lámpara uno') || mensaje.includes('Apagar lámpara 1')){
+    if(mensaje.includes('baño principal Apagar') || mensaje.includes('Apagar baño principal') || mensaje.includes('Apagar lámpara baño principal') || mensaje.includes('baño principal Apagar lámpara')){
         voz.text = 'Listo!!!'
         var channel = ably.channels.get(topic_raiz+"/actions/sw1");
         channel.publish(clientId, "0"); 
