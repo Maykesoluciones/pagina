@@ -16,6 +16,7 @@ password = "F57OdMEvI0r1R6ZEzasbjy6YOEpUqyrYi3djkW7OC5M";
 topic_raiz = "pruebas";
 topic_conexion = "/conexion";
 topic_datos_lamparas = "/datos_lamparas";
+topic_ip = "/ip";
 
 ////////////ESTADOS INDIVIDUAL DE LAMPARAS 1,2,3,ETC
 
@@ -223,6 +224,35 @@ eventSource.onmessage = function (event) {
     } else {
       $("#display_sw10").prop("checked", "");
     }
+  }
+};
+
+///////////////////// consulta de ip  /////////////////////////
+
+var conexion_ip =
+  url +
+  "channels=" +
+  topic_raiz +
+  topic_ip +
+  "&v=" +
+  version +
+  "&key=" +
+  username +
+  ":" +
+  password;
+var eventSource = new EventSource(conexion_ip);
+
+eventSource.onmessage = function (event) {
+  var message = JSON.parse(event.data);
+
+  var topic = message.channel;
+  // Decodificar mensaje
+  var decodedString = atob(message.data);
+  console.log("Topic: " + message.channel + "  Mensaje: " + decodedString);
+
+  if (topic == topic_raiz + topic_ip) {
+    var splitted = decodedString.toString().split(",");
+    var ip = splitted[0];
   }
 };
 
