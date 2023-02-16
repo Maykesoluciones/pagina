@@ -58,6 +58,19 @@ const leerTextoCondicionado = (mensaje)=>{
     const voz = new SpeechSynthesisUtterance()
     
     
+      ///////////////////////////// IP ///////////////////////////////////
+  
+    if(mensaje.includes('ip')|| mensaje.includes('IP')){
+        voz.text ="Consulta ip,";
+        var channel = ably.channels.get(topic_raiz+"/ip");
+        channel.publish(clientId, "ip"); 
+        console.log('consulta ip);
+           
+    }else{
+        //voz.text = mensaje
+    } 
+    
+    
 // PREGUNTAS
     if(mensaje.includes('qué hora es') || mensaje.includes('dime la hora') || mensaje.includes('Dime la hora')){
       
