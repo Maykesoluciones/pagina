@@ -253,6 +253,7 @@ eventSource.onmessage = function (event) {
   if (topic == topic_raiz + topic_ip) {
     var splitted = decodedString.toString().split(",");
     var ip = splitted[0];
+    document.getElementById("display_ip").innerHTML = ip;
   }
 };
 
