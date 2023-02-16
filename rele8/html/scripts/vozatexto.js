@@ -447,17 +447,6 @@ if(mensaje.includes('apágate') || mensaje.includes('reiníciate') || mensaje.in
 //voz.text = mensaje
 }
   
-      ///////////////////////////// IP ///////////////////////////////////
-  
- if(mensaje.includes('ip')|| mensaje.includes('IP')){
-     voz.text ="Consulta ip,";
-     var channel = ably.channels.get(topic_raiz+"/ip");
-     channel.publish(clientId, "ip"); 
-     console.log('consulta ip);       
-   }else{
-        //voz.text = mensaje
-   } 
-
     voz.rate = 0.9; // velocidad de reproduccion valor menor mas lento
     window.speechSynthesis.speak(voz)
 }
