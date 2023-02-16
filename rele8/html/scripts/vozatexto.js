@@ -121,6 +121,17 @@ const leerTextoCondicionado = (mensaje)=>{
         //voz.text = mensaje
     } 
   
+  ///////////////////////////// IP ///////////////////////////////////
+  
+    if(mensaje.includes('IP')|| mensaje.includes('ip')){
+        voz.text ="Consulta IP";
+        var channel = ably.channels.get(topic_raiz+"/ip");
+        channel.publish(clientId, "ip"); 
+        console.log('Mensaje ip');
+    }else{
+        //voz.text = mensaje
+    } 
+  
 ////////////////////////////////// lamparassss ////////////////////////////////////////////////////  
  
     if(mensaje.includes('lámpara 1 prender') || mensaje.includes('lámpara 1 encender') || mensaje.includes('encender lámpara uno') || mensaje.includes('encender lámpara 1')){
