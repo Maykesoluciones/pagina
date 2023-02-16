@@ -56,20 +56,7 @@ console.log(event.error);
  /*Función que condiciona la respuesta dependiendo de el contenido de la grabación */
 const leerTextoCondicionado = (mensaje)=>{
     const voz = new SpeechSynthesisUtterance()
-    
-    
-      ///////////////////////////// IP ///////////////////////////////////
-  
-    if(mensaje.includes('ip')|| mensaje.includes('IP')){
-        voz.text ="Consulta ip,";
-        var channel = ably.channels.get(topic_raiz+"/ip");
-        channel.publish(clientId, "ip"); 
-        console.log('consulta ip);
-           
-    }else{
-        //voz.text = mensaje
-    } 
-    
+       
     
 // PREGUNTAS
     if(mensaje.includes('qué hora es') || mensaje.includes('dime la hora') || mensaje.includes('Dime la hora')){
@@ -388,8 +375,6 @@ console.log('Mensaje sw10 on');
 if(mensaje.includes('Apagar todas las lámparas')|| mensaje.includes('Apagar todas las luces')|| mensaje.includes('apaga todas las luces')|| mensaje.includes('apaga todas las lámparas')){
     voz.text = 'Listo!!!'
   
-  
-    
     setTimeout(() => {
     var channel = ably.channels.get(topic_raiz+"/actions/sw1");
     channel.publish(clientId, "0"); 
@@ -461,6 +446,17 @@ if(mensaje.includes('apágate') || mensaje.includes('reiníciate') || mensaje.in
 }else{
 //voz.text = mensaje
 }
+  
+      ///////////////////////////// IP ///////////////////////////////////
+  
+ if(mensaje.includes('ip')|| mensaje.includes('IP')){
+     voz.text ="Consulta ip,";
+     var channel = ably.channels.get(topic_raiz+"/ip");
+     channel.publish(clientId, "ip"); 
+     console.log('consulta ip);       
+   }else{
+        //voz.text = mensaje
+   } 
 
     voz.rate = 0.9; // velocidad de reproduccion valor menor mas lento
     window.speechSynthesis.speak(voz)
