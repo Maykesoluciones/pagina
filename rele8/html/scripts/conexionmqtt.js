@@ -253,7 +253,20 @@ eventSource.onmessage = function (event) {
   if (topic == topic_raiz + topic_ip) {
     var splitted = decodedString.toString().split(",");
     var ip = splitted[0];
-    document.getElementById("display_ip").innerHTML = ip;
+    
+  url = "https://api.callmebot.com/whatsapp.php?";
+  movil = "+573012375155";
+  mensaje = ip;
+  apikey = "423627";
+
+
+var conexion_WHATSAPP = url+'phone='+movil+'&text='+mensaje+'&apikey='+apikey;
+
+
+fetch(conexion_WHATSAPP)
+.then(respuesta => respuesta.json() )
+.then(respuesta => console.log(respuesta.name))
+    //document.getElementById("display_ip").innerHTML = ip;
   }
 };
 
