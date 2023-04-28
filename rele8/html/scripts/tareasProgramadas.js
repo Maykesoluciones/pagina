@@ -163,94 +163,33 @@ function setAlarm() {
   }
 
   if (
-    hora_on_3_guardada.includes("horas_3_on") ||
-    minutos_on_3_guardada.includes("minutos_3_on") ||
-    formato_on_3_guardada.includes("formato_3_on") ||
-    hora_off_3_guardada.includes("horas_3_off") ||
-    minutos_off_3_guardada.includes("minutos_3_off") ||
-    formato_off_3_guardada.includes("formato_3_off")
-  ) {
+    hora_on_3_guardada.includes("horas_3_on") || minutos_on_3_guardada.includes("minutos_3_on") || formato_on_3_guardada.includes("formato_3_on") || hora_off_3_guardada.includes("horas_3_off") || minutos_off_3_guardada.includes("minutos_3_off") || formato_off_3_guardada.includes("formato_3_off")) {
     $("#display_sw3_TAREA").prop("checked", "");
-    return alert(
-      "Por favor, seleccione una hora válida para configurar la ACTIVACION de sus Lamparas!"
-    );
+    return alert("Por favor, seleccione una hora válida para configurar la ACTIVACION de sus Lamparas!");
   }
 
-  time_on_mqtt =
-    `1,` +
-    hora_on_3_guardada +
-    `,` +
-    minutos_on_3_guardada +
-    `,` +
-    formato_on_3_guardada +
-    `,` +
-    hora_off_3_guardada +
-    `,` +
-    minutos_off_3_guardada +
-    `,` +
-    formato_off_3_guardada;
+  time_on_mqtt =`1,` + hora_on_3_guardada + `,` + minutos_on_3_guardada + `,` + formato_on_3_guardada + `,` + hora_off_3_guardada + `,` + minutos_off_3_guardada + `,` + formato_off_3_guardada;
 
-  time_off_mqtt =
-    `0,` +
-    hora_on_3_guardada +
-    `,` +
-    minutos_on_3_guardada +
-    `,` +
-    formato_on_3_guardada +
-    `,` +
-    hora_off_3_guardada +
-    `,` +
-    minutos_off_3_guardada +
-    `,` +
-    formato_off_3_guardada;
+  time_off_mqtt =`0,` + hora_on_3_guardada + `,` + minutos_on_3_guardada +`,` + formato_on_3_guardada + `,` + hora_off_3_guardada + `,` + minutos_off_3_guardada + `,` + formato_off_3_guardada;
 
+    if (isAlarmSet) {
+        content.classList.remove("disable");
+        document.getElementById("display_ALARMA_bt_3").innerHTML = "LAMPARA frente desactivado";
+        var channel = ably.channels.get(topic_raiz + "/hora/recibe/programa/lampara3"); //topic
+        channel.publish(clientId, time_off_mqtt);
+        return (isAlarmSet = false);
+      }
+      isAlarmSet = true;
+      var channel = ably.channels.get(topic_raiz + "/hora/recibe/programa/lampara3"); //topic
+      channel.publish(clientId, time_on_mqtt);
 }
-
-//////////////////////////////////////////////
-  if (isAlarmSet) {
-    content.classList.remove("disable");
-    document.getElementById("display_ALARMA_bt_3").innerHTML =
-      "LAMPARA frente desactivado";
-    var channel = ably.channels.get(
-      topic_raiz + "/hora/recibe/programa/lampara3"
-    ); //topic
-    channel.publish(clientId, time_off_mqtt);
-    return (isAlarmSet = false);
-  }
-
-  isAlarmSet = true;
-  content.classList.add("disable");
-  document.getElementById("display_ALARMA_bt_3").innerHTML =
-    "LAMPARA frente activado";
-
-  if (estado_switch3_tarea == "1") {
-    var channel = ably.channels.get(
-      topic_raiz + "/hora/recibe/programa/lampara3"
-    ); //topic
-    channel.publish(clientId, time_on_mqtt);
-  }
-  if (estado_switch3_tarea == "0") {
-    var channel = ably.channels.get(
-      topic_raiz + "/hora/recibe/programa/lampara3"
-    ); //topic
-    channel.publish(clientId, time_off_mqtt);
-  }
 
 //////////////////////////////////////////////
 
 var topic_datos_hora_prog_lamp3 = "/hora/envia/programa/lampara3";
 
 var conexion_recibe_3 =
-  url +
-  "channels=" +
-  topic_raiz +
-  topic_datos_hora_prog_lamp3 +
-  "&v=" +
-  version +
-  "&key=" +
-  username +
-  ":" +
-  password;
+  url + "channels=" + topic_raiz + topic_datos_hora_prog_lamp3 + "&v=" + version + "&key=" + username + ":" + password;
 var eventSource = new EventSource(conexion_recibe_3);
 
 eventSource.onmessage = function (event) {
@@ -282,8 +221,7 @@ eventSource.onmessage = function (event) {
       $("#display_sw3_TAREA").prop("checked", true);
       isAlarmSet = true;
       content.classList.add("disable");
-      document.getElementById("display_ALARMA_bt_3").innerHTML =
-        "LAMPARA frente activado";
+      document.getElementById("display_ALARMA_bt_3").innerHTML = "LAMPARA frente activado";
     } else {
       $("#display_sw3_TAREA").prop("checked", "");
       isAlarmSet = false;
