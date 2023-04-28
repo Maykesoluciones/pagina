@@ -204,6 +204,9 @@ function setAlarm() {
     `,` +
     formato_off_3_guardada;
 
+}
+
+//////////////////////////////////////////////
   if (isAlarmSet) {
     content.classList.remove("disable");
     document.getElementById("display_ALARMA_bt_3").innerHTML =
@@ -232,7 +235,6 @@ function setAlarm() {
     ); //topic
     channel.publish(clientId, time_off_mqtt);
   }
-}
 
 //////////////////////////////////////////////
 
