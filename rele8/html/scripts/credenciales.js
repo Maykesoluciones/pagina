@@ -1,4 +1,4 @@
-
+history.forward()
 // connect options control de usuarios
 url = "https://realtime.ably.io/event-stream?";
 version = "1.2";
