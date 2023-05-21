@@ -1,3 +1,9 @@
+window.addEventListener('popstata',function(event){
+  history.pushState(null, null, window.location.pathname);
+  history.pushState(null, null, window.location.pathname);
+},false);
+
+
 /////////////////////////////////////////
 /////////////// Autenticacion////////////
 /////////////////////////////////////////
