@@ -1,5 +1,10 @@
-// connect options control de usuarios
+window.addEventListener('popstata',function(event){
+  history.pushState(null, null, window.location.pathname);
+  history.pushState(null, null, window.location.pathname);
+},false);
 
+
+// connect options control de usuarios
 url = "https://realtime.ably.io/event-stream?";
 version = "1.2";
 username = "QLTmug.ldqIyQ";
