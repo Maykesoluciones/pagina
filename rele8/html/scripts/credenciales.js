@@ -1,9 +1,6 @@
-Session.HashTag = "#"
-
-window.addEventListener('popstata',function(event){
-  history.pushState(null, null, window.location.pathname);
-  history.pushState(null, null, window.location.pathname);
-},false);
+window.location.hash="no-back-button";
+window.location.hash="Again-No-back-button";//esta linea es necesaria para chrome
+window.onhashchange=function(){window.location.hash="no-back-button";}
 
 
 // connect options control de usuarios
