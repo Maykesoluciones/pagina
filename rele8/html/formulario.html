@@ -3,14 +3,12 @@
 <head>
   <meta charset="utf-8">
   <title>mayke validacion</title>
-
   <script>
-/////////////////////////////////
   function validar(){
     var nombre,clave;
     nombre = document.getElementById('nombre').value;
-    clave = document.getElementById('clave').value;
-    console.log(nombre+","+clave);
+    apellido = document.getElementById('apellido').value;
+    console.log(nombre+","+apellido);
     setTimeout(function(){mostrarAviso()},3000); // 3000ms = 3s
 }
 
@@ -37,8 +35,8 @@ alert("Han pasado los tres segundos");
       <input type="text" id='nombre'>
     </div>
     <div>
-      <label for="password">Password</label>
-      <input type="password" id='password'>
+      <label for="apellido">Apellido</label>
+      <input type="text" id='apellido'>
     </div>
     <input type="submit" onclick='return validar();' value= 'Enviar'>
   </form>
