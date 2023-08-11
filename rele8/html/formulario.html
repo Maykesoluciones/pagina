@@ -3,6 +3,23 @@
 <head>
   <meta charset="utf-8">
   <title>mayke validacion</title>
+
+  <script>
+/////////////////////////////////
+  function validar(){
+    var nombre,clave;
+    nombre = document.getElementById('nombre').value;
+    clave = document.getElementById('clave').value;
+    console.log(nombre+","+clave);
+    setTimeout(function(){mostrarAviso()},3000); // 3000ms = 3s
+}
+
+function mostrarAviso(){
+alert("Han pasado los tres segundos");
+}
+</script>
+
+  
   <style>
   label{
     display:block;
