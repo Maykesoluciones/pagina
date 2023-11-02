@@ -87,27 +87,6 @@ eventSource.onmessage = function (event) {
         entrarPagina = localStorage.getItem("entrar_pagina");
         tiempo_exit();
       }
-
-      var channel = ably.channels.get(topic_raiz + "/dato/reloj");
-
-      let date = new Date(),
-        h = date.getHours(),
-        m = date.getMinutes(),
-        s = date.getSeconds(),
-        dia = date.getDate(),
-        mes = date.getMonth(),
-        ano = date.getFullYear(),
-        ampm = "0";
-
-      if (h >= 12) {
-        ampm = "1";
-      }
-
-      channel.publish(
-        clientId,
-        h + "," + m + "," + s + "," + ampm + "," + dia + "," + mes + "," + ano
-      );
-
       // ENVIO DE MENSAJE INICIAL DE MQTT pedir
       var channel = ably.channels.get(topic_raiz + "/horasProgrmadas"); //topic
       channel.publish(clientId, "inicio_horas");
