@@ -3,8 +3,8 @@
   (setAlarmBtn = document.querySelector("button"));
 
 // ENVIO DE MENSAJE INICIAL DE MQTT al abrir el navegador o esta pagina
-var channel = ably.channels.get(topic_raiz + "/horasProgrmadas"); //topic
-channel.publish(clientId, "inicio_horas");
+//var channel = ably.channels.get(topic_raiz + "/horasProgrmadas"); //topic
+//channel.publish(clientId, "inicio_horas");
 
 //recibir mensajes de los topicos suscritos de conexion y desconexion
 
