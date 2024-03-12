@@ -101,7 +101,7 @@ function tiempo_exit() {
       let autorizo = "true";
       localStorage.setItem("entrar_pagina", autorizo);
     } else {
-     window.location = "https://maykesoluciones.github.io/pagina/K5A#35_06/html/signin.html";
+     window.location = "https://maykesoluciones.github.io/pagina/K5A3506/html/signin.html";
     }
   }, 2000);
 }
