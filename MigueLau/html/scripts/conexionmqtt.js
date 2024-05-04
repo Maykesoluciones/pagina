@@ -13,8 +13,8 @@ var conteo_refres;
 
 url = "https://realtime.ably.io/event-stream?";
 version = "1.2";
-username = "QLTmug.ldqIyQ";
-password = "F57OdMEvI0r1R6ZEzasbjy6YOEpUqyrYi3djkW7OC5M";
+username = "VRDsGQ.B_CYIQ";
+password = "dPUOfDfiuRQrRSX9wt1fcYc9v-AKBdGQa2jTP60_D5g";
 topic_raiz = "MigueLau";
 topic_conexion = "/conexion";
 topic_datos_lamparas = "/datos_lamparas";
@@ -33,7 +33,7 @@ topic_dato_lampara_8 = "/datolampara8";
 
 // // Mensajes
 mensaje_inicial = "Desconectado";
-clientId = " WEB FAM-MERCADO--->> " + Math.floor(Math.random() * 1000000 + 1);
+clientId = " WEB FAM-MIGUELAU--->> " + Math.floor(Math.random() * 1000000 + 1);
 
 var ably = new Ably.Realtime(username + ":" + password);
 
