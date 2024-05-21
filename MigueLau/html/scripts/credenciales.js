@@ -6,8 +6,8 @@ username = "VRDsGQ.B_CYIQ";
 password = "dPUOfDfiuRQrRSX9wt1fcYc9v-AKBdGQa2jTP60_D5g";
 topic_raiz = "MigueLau";
 topic_conexion = "/conexion";
-topic_datos_lamparas = "/datos_lamparas";
-topic_ip = "/ip";
+topic_autenticacion = "/autenticacion";
+topic_comparar_acceso = "/compararAcceso";
 
 // // Mensajes
 mensaje_inicial = "Desconectado";
