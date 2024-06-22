@@ -31,7 +31,7 @@ console.log(event.error);
     contenido.innerHTML= 'Error: ' + event.error;   
     document.getElementById("btn").style.display = ""
       console.log("Error");     
-      },1000); 
+      },500); 
 }
 
   //////////////////////////////////////////////////////////////////////////////////////
