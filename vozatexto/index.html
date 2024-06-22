@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MAYKE_SOLUCIONES</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="iconoMayKe_s.ico">
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  
+  <body>
+    <div class="barra">
+      <h1>COMANDO DE VOZ<br/></h1>
+    </div>
+	
+    <div class="content">
+      <div class="card-grid">
+        <div class="card">
+          <p class="card-title"></p>
+          <p class="state"><button onclick="iniciar_reco_VOZ()" id="btn">PRESIONAR</button>
+          </p>
+         <div>
+        <p class="contenido"></p>  <!--mostrar de voz a texto-->
+        </div>
+        </div>
+      </div>
+    </div>
+   <script src="p5.min.js"></script>
+   <script src="p5.dom.min.js"></script>
+   <script src="p5.speech.js"></script>
+   <script src="vozatexto.js"></script>
+  </body>
+</html>
