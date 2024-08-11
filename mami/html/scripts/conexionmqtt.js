@@ -579,7 +579,7 @@ eventSource.onmessage = function (event) {
 
   if (topic == topic_raiz + topic_dato_lampara_9) {
     var splitted = decodedString.toString().split(",");
-    var switch8 = splitted[0];
+    var switch9 = splitted[0];
 
     if (switch9 == "1") {
       $("#display_sw9").prop("checked", true);
