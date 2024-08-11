@@ -30,6 +30,8 @@ topic_dato_lampara_5 = "/datolampara5";
 topic_dato_lampara_6 = "/datolampara6";
 topic_dato_lampara_7 = "/datolampara7";
 topic_dato_lampara_8 = "/datolampara8";
+topic_dato_lampara_9 = "/datolampara9";
+topic_dato_lampara_10 = "/datolampara10";
 
 // // Mensajes
 mensaje_inicial = "Desconectado";
@@ -548,6 +550,76 @@ eventSource.onmessage = function (event) {
       $("#display_sw8").prop("checked", true);
     } else {
       $("#display_sw8").prop("checked", "");
+    }
+  }
+};
+////////////////////////////FIN LAMPARA OCHO ////////////////////////////
+////////////////////// LAMPARA NUEVE //////////////////////
+
+var conexion_LAMP_NUEVE =
+  url +
+  "channels=" +
+  topic_raiz +
+  topic_dato_lampara_9 +
+  "&v=" +
+  version +
+  "&key=" +
+  username +
+  ":" +
+  password;
+var eventSource = new EventSource(conexion_LAMP_NUEVE);
+
+eventSource.onmessage = function (event) {
+  var message = JSON.parse(event.data);
+
+  var topic = message.channel;
+  // Decodificar mensaje
+  var decodedString = atob(message.data);
+  console.log("Topic: " + message.channel + "  Mensaje: " + decodedString);
+
+  if (topic == topic_raiz + topic_dato_lampara_9) {
+    var splitted = decodedString.toString().split(",");
+    var switch8 = splitted[0];
+
+    if (switch9 == "1") {
+      $("#display_sw9").prop("checked", true);
+    } else {
+      $("#display_sw9").prop("checked", "");
+    }
+  }
+};
+////////////////////////////FIN LAMPARA OCHO ////////////////////////////
+////////////////////// LAMPARA OCHO //////////////////////
+
+var conexion_LAMP_DIEZ =
+  url +
+  "channels=" +
+  topic_raiz +
+  topic_dato_lampara_10 +
+  "&v=" +
+  version +
+  "&key=" +
+  username +
+  ":" +
+  password;
+var eventSource = new EventSource(conexion_LAMP_DIEZ);
+
+eventSource.onmessage = function (event) {
+  var message = JSON.parse(event.data);
+
+  var topic = message.channel;
+  // Decodificar mensaje
+  var decodedString = atob(message.data);
+  console.log("Topic: " + message.channel + "  Mensaje: " + decodedString);
+
+  if (topic == topic_raiz + topic_dato_lampara_10) {
+    var splitted = decodedString.toString().split(",");
+    var switch8 = splitted[0];
+
+    if (switch8 == "1") {
+      $("#display_sw10").prop("checked", true);
+    } else {
+      $("#display_sw10").prop("checked", "");
     }
   }
 };
