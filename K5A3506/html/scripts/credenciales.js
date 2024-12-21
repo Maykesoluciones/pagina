@@ -63,7 +63,7 @@ eventSource.onmessage = function (event) {
       document.getElementById("display_autorizacion").innerHTML =
         mensaje_estado;
 
-      mensaje_estado = "";
+      mensaje_estado = "Bienvenido(a) a luces K5A#35_06.";
 
       setTimeout(() => {
         document.getElementById("display_autorizacion").innerHTML =
