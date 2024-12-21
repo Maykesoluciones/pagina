@@ -79,7 +79,7 @@ eventSource.onmessage = function (event) {
       console.log(conteo_string);
       localStorage.setItem("conteo", conteo_string);
 
-      if (conteo_refres == 10 || conex == "Desconectado") {
+      if (conteo_refres == 20 || conex == "Desconectado") {
         let autorizo = "false";
         localStorage.setItem("entrar_pagina", autorizo);
         localStorage.setItem("conteo", "0");
