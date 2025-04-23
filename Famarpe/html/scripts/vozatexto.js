@@ -115,7 +115,7 @@ const leerTextoCondicionado = (mensaje)=>{
         voz.text ="hasta la próxima";
       
         setTimeout(() => {
-        window.location = "https://maykesoluciones.github.io/pagina/Kelly/html/signin.html";
+        window.location = "https://maykesoluciones.github.io/pagina/Famarpe/html/signin.html";
         },1500);      
     }else{
         //voz.text = mensaje
