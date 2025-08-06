@@ -2,12 +2,7 @@
 (selectMenu = document.querySelectorAll("select")),
 (setAlarmBtn = document.querySelector("button"));
 
-
-
 //recibir mensajes de los topicos suscritos de conexion y desconexion
-
-var topic_datos_hora_prog_lamp3 = "/hora/envia/programa/lampara3";
-
 
 client.on('message', (topic, message) => {
   console.log(`Mensaje recibido [${topic}]: ${message.toString()}`);
@@ -196,3 +191,4 @@ function setAlarm() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
