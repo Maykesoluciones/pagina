@@ -20,6 +20,8 @@ topic_conexion = "/conexion";
 topic_datos_lamparas = "/datos_lamparas";
 topic_ip = "/ip";
 
+var topic_datos_hora_prog_lamp3 = "/hora/envia/programa/lampara3";
+
 ////////////ESTADOS INDIVIDUAL DE LAMPARAS 1,2,3,ETC
 topic_dato_lampara_1 = "/datolampara1";
 topic_dato_lampara_2 = "/datolampara2";
@@ -51,6 +53,7 @@ client.on('connect', () => {
   client.subscribe(topic_raiz + topic_dato_lampara_6)
   client.subscribe(topic_raiz + topic_dato_lampara_7)
   client.subscribe(topic_raiz + topic_dato_lampara_8)
+  client.subscribe(topic_raiz + topic_datos_hora_prog_lamp3)
 
   client.publish(topic_raiz + topic_conexion, mensaje_inicial);
 });
