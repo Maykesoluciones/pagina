@@ -115,7 +115,7 @@ const leerTextoCondicionado = (mensaje)=>{
         voz.text ="hasta la próxima";
       
         setTimeout(() => {
-        window.location = "https://maykesoluciones.github.io/pagina/rele8/html/signin.html";
+        window.location = "https://maykesoluciones.github.io/pagina/K5A3506/html/signin.html";
         },1500);      
     }else{
         //voz.text = mensaje
@@ -461,5 +461,6 @@ if(mensaje.includes('apágate') || mensaje.includes('reiníciate') || mensaje.in
     voz.rate = 0.9; // velocidad de reproduccion valor menor mas lento
     window.speechSynthesis.speak(voz)
 }
+
 
 
