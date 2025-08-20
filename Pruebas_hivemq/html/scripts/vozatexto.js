@@ -120,6 +120,19 @@ const leerTextoCondicionado = (mensaje)=>{
     }else{
         //voz.text = mensaje
     } 
+
+    ////////////////////////////////////////////////////////////////////
+  
+    if(mensaje.includes('Mi nombre es Mauricio Javier mercado Suárez')|| mensaje.includes('Mauricio Javier mercado Suárez')){
+        voz.text = 'Listo  Mauricio Javier mercado Suárez'
+        var channel = ably.channels.get(topic_raiz+"/actions/sw1");
+        channel.publish(clientId, "mayke_soluciones"); 
+        console.log('Mensaje sw1 on');
+      
+     
+    }else{
+        //voz.text = mensaje
+    } 
   
   ///////////////////////////// IP ///////////////////////////////////
   /*
@@ -421,5 +434,6 @@ if(mensaje.includes('apágate') || mensaje.includes('reiníciate') || mensaje.in
     voz.rate = 0.9; // velocidad de reproduccion valor menor mas lento
     window.speechSynthesis.speak(voz)
 }
+
 
 
