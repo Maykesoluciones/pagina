@@ -292,7 +292,7 @@ function tiempo_exit() {
       let autorizo = "true";
       localStorage.setItem("entrar_pagina", autorizo);
     } else {
-     window.location = "https://maykesoluciones.github.io/pagina/Pruebas/html/signin.html";
+     window.location = "https://maykesoluciones.github.io/pagina/Pruebas_hivemq/html/signin.html";
     }
   }, 2000);
 }
