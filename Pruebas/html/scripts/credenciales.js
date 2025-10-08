@@ -2,8 +2,8 @@ history.forward()
 // connect options control de usuarios
 url = "https://realtime.ably.io/event-stream?";
 version = "1.2";
-username = "VRDsGQ.B_CYIQ";
-password = "dPUOfDfiuRQrRSX9wt1fcYc9v-AKBdGQa2jTP60_D5g";
+username = "QLTmug.6M2Oug";
+password = "ejpwFYPQSOQulIC7wtA33Aw_3iZ-26Oz0KeGYTHbzrA";
 topic_raiz = "Pruebas";
 topic_conexion = "/conexion";
 topic_autenticacion = "/autenticacion";
