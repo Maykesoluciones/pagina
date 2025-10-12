@@ -280,6 +280,10 @@ eventSource.onmessage = function (event) {
     var conexion_git_ms = splitted[1];
 
     contenido.innerHTML = conexion_git_ms; 
+
+    setTimeout(() => {
+    contenido.innerHTML = ""; 
+    },5000);
     
   }
 };
