@@ -277,7 +277,7 @@ eventSource.onmessage = function (event) {
   if (topic == topic_raiz + topic_githubEstado) {
     var splitted = decodedString.toString().split(",");
     var conexion_git = splitted[0];
-    var conexion_git_ms = splitted[0];
+    var conexion_git_ms = splitted[1];
 
     contenido.innerHTML = conexion_git_ms; 
     
