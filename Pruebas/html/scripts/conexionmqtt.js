@@ -19,6 +19,7 @@ topic_raiz = "Pruebas";
 topic_conexion = "/conexion";
 topic_datos_lamparas = "/datos_lamparas";
 topic_ip = "/ip";
+topic_githubEstado = "/actualizacion/github/ota";
 
 ////////////ESTADOS INDIVIDUAL DE LAMPARAS 1,2,3,ETC
 
@@ -246,6 +247,44 @@ fetch(conexion_WHATSAPP)
     //document.getElementById("display_ip").innerHTML = ip;
   }
 };
+
+///////////////////// consulta de estado github  /////////////////////////
+
+const contenido = document.querySelector('.contenido')
+//contenido.innerHTML = 'Escucho...' 
+
+var conexion_github =
+  url +
+  "channels=" +
+  topic_raiz +
+  topic_githubEstado +
+  "&v=" +
+  version +
+  "&key=" +
+  username +
+  ":" +
+  password;
+var eventSource = new EventSource(conexion_github);
+
+eventSource.onmessage = function (event) {
+  var message = JSON.parse(event.data);
+
+  var topic = message.channel;
+  // Decodificar mensaje
+  var decodedString = atob(message.data);
+  console.log("Topic: " + message.channel + "  Mensaje: " + decodedString);
+
+  if (topic == topic_raiz + topic_githubEstado) {
+    var splitted = decodedString.toString().split(",");
+    var conexion_git = splitted[0];
+    var conexion_git_ms = splitted[0];
+
+    contenido.innerHTML = conexion_git_ms; 
+    
+  }
+};
+
+////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////
 ///////////////// RECIBIR ESTADO INDIVIDUAL DE CADA LAMPARA ////////////////////////////
