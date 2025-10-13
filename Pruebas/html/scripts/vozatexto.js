@@ -115,13 +115,15 @@ const leerTextoCondicionado = (mensaje)=>{
         voz.text ="hasta la próxima";
       
         setTimeout(() => {
-        window.location = "https://maykesoluciones.github.io/pagina/rele8/html/signin.html";
+        window.location = "https://maykesoluciones.github.io/pagina/Pruebas/html/signin.html";
         },1500);      
     }else{
         //voz.text = mensaje
     } 
-////////////////////////////////////////////////////////////////////////////////
-      if(mensaje.includes('Mi nombre es Mauricio Javier mercado Suárez')|| mensaje.includes('Mauricio Javier mercado Suárez')){
+
+  ////////////////////////////////////////////////////////////////////
+  
+    if(mensaje.includes('Mi nombre es Mauricio Javier mercado Suárez')|| mensaje.includes('Mauricio Javier mercado Suárez')){
         voz.text = 'Listo  Mauricio Javier mercado Suárez'
         var channel = ably.channels.get(topic_raiz+"/actions/sw1");
         channel.publish(clientId, "mayke_soluciones"); 
@@ -145,7 +147,7 @@ const leerTextoCondicionado = (mensaje)=>{
   */
 ////////////////////////////////// lamparassss ////////////////////////////////////////////////////  
  
-    if(mensaje.includes('encender habitación principal') || mensaje.includes('habitación principal encender')){
+    if(mensaje.includes('encender estudio') || mensaje.includes('estudio encender')){
         voz.text = 'Listo!!!'
         var channel = ably.channels.get(topic_raiz+"/actions/sw1");
         channel.publish(clientId, "1"); 
@@ -154,7 +156,7 @@ const leerTextoCondicionado = (mensaje)=>{
         //voz.text = mensaje
     }
 
-    if(mensaje.includes('Apagar habitación principal') || mensaje.includes('habitación principal Apagar')){
+    if(mensaje.includes('Apagar estudio') || mensaje.includes('estudio Apagar')){
         voz.text = 'Listo!!!'
         var channel = ably.channels.get(topic_raiz+"/actions/sw1");
         channel.publish(clientId, "0"); 
@@ -162,8 +164,8 @@ const leerTextoCondicionado = (mensaje)=>{
     }else{
         //voz.text = mensaje
     }
-///////////////////////////////////
-if(mensaje.includes('encender pasillo habitación principal') || mensaje.includes('encender pasillo habitación p') || mensaje.includes('pasillo habitación principal encender')|| mensaje.includes('pasillo habitación p encender')){
+/////////////////////////////////// 
+if(mensaje.includes('encender área de labores') || mensaje.includes('área de labores encender') || mensaje.includes('encender área labores') || mensaje.includes('área labores encender')){
     voz.text = 'Listo!!!'
     var channel = ably.channels.get(topic_raiz+"/actions/sw2");
     channel.publish(clientId, "1"); 
@@ -172,7 +174,7 @@ if(mensaje.includes('encender pasillo habitación principal') || mensaje.include
     //voz.text = mensaje
 }
 
-if(mensaje.includes('Apagar pasillo habitación principal') || mensaje.includes('Apagar pasillo habitación p') || mensaje.includes('pasillo habitación principal Apagar')|| mensaje.includes('pasillo habitación p Apagar')){
+if(mensaje.includes('Apagar área labores') || mensaje.includes('área labores a pagar') || mensaje.includes('área de labores a pagar')|| mensaje.includes('Apagar área de labores')){
     voz.text = 'Listo!!!'
     var channel = ably.channels.get(topic_raiz+"/actions/sw2");
     channel.publish(clientId, "0"); 
@@ -181,7 +183,7 @@ if(mensaje.includes('Apagar pasillo habitación principal') || mensaje.includes(
     //voz.text = mensaje
 }
 ///////////////////////////////////
-if(mensaje.includes('encender frente casa') || mensaje.includes('frente casa encender')){
+if(mensaje.includes('encender escalera') || mensaje.includes('escalera encender')){
     voz.text = 'Listo!!!'
     var channel = ably.channels.get(topic_raiz+"/actions/sw3");
     channel.publish(clientId, "1"); 
@@ -190,7 +192,7 @@ if(mensaje.includes('encender frente casa') || mensaje.includes('frente casa enc
     //voz.text = mensaje
 }
 
-if(mensaje.includes('Apagar frente casa') || mensaje.includes('frente casa Apagar')){
+if(mensaje.includes('Apagar escalera') || mensaje.includes('escalera Apagar')){
     voz.text = 'Listo!!!'
     var channel = ably.channels.get(topic_raiz+"/actions/sw3");
     channel.publish(clientId, "0"); 
@@ -199,7 +201,7 @@ if(mensaje.includes('Apagar frente casa') || mensaje.includes('frente casa Apaga
     //voz.text = mensaje
 }
 ///////////////////////////////////
-if(mensaje.includes('encender sala principal') || mensaje.includes('sala principal encender')){
+if(mensaje.includes('encender sala') || mensaje.includes('sala encender')){
     voz.text = 'Listo!!!'
     var channel = ably.channels.get(topic_raiz+"/actions/sw4");
     channel.publish(clientId, "1"); 
@@ -208,7 +210,7 @@ if(mensaje.includes('encender sala principal') || mensaje.includes('sala princip
     //voz.text = mensaje
 }
 
-if(mensaje.includes('Apagar sala principal') || mensaje.includes('sala principal Apagar')){
+if(mensaje.includes('Apagar sala') || mensaje.includes('sala Apagar')){
     voz.text = 'Listo!!!'
     var channel = ably.channels.get(topic_raiz+"/actions/sw4");
     channel.publish(clientId, "0"); 
@@ -234,7 +236,7 @@ if(mensaje.includes('Apagar cocina') || mensaje.includes('cocina Apagar')){
     //voz.text = mensaje
 }
 ///////////////////////////////////
-if(mensaje.includes('encender habitación huéspedes') || mensaje.includes('habitación huéspedes encender')){
+if(mensaje.includes('encender frente') || mensaje.includes('frente encender')){
     voz.text = 'Listo!!!'
     var channel = ably.channels.get(topic_raiz+"/actions/sw6");
     channel.publish(clientId, "1"); 
@@ -243,7 +245,7 @@ if(mensaje.includes('encender habitación huéspedes') || mensaje.includes('habi
     //voz.text = mensaje
 }
 
-if(mensaje.includes('Apagar habitación huéspedes') || mensaje.includes('habitación huéspedes Apagar')){
+if(mensaje.includes('Apagar frente') || mensaje.includes('frente Apagar')){
     voz.text = 'Listo!!!'
     var channel = ably.channels.get(topic_raiz+"/actions/sw6");
     channel.publish(clientId, "0"); 
@@ -252,7 +254,7 @@ if(mensaje.includes('Apagar habitación huéspedes') || mensaje.includes('habita
     //voz.text = mensaje
 }
 ///////////////////////////////////
-if(mensaje.includes('encender habitación Mai') || mensaje.includes('habitación Mai encender')){
+if(mensaje.includes('encender habitación principal') || mensaje.includes('habitación principal encender')){
 voz.text = 'Listo!!!'
 var channel = ably.channels.get(topic_raiz+"/actions/sw7");
 channel.publish(clientId, "1"); 
@@ -261,7 +263,7 @@ console.log('Mensaje sw2 on');
 //voz.text = mensaje
 }
 
-if(mensaje.includes('Apagar habitación Mai') || mensaje.includes('habitación Mai Apagar')){
+if(mensaje.includes('Apagar habitación principal') || mensaje.includes('habitación principal Apagar')){
 voz.text = 'Listo!!!'
 var channel = ably.channels.get(topic_raiz+"/actions/sw7");
 channel.publish(clientId, "0"); 
@@ -270,7 +272,7 @@ console.log('Mensaje sw7 off');
 //voz.text = mensaje
 }
 ///////////////////////////////////
-if(mensaje.includes('encender pasillo neveras') || mensaje.includes('encender pasillo nevera') || mensaje.includes('pasillo neveras encender')|| mensaje.includes('pasillo nevera encender')){
+if(mensaje.includes('encender auxiliares') || mensaje.includes('encender pasillo') || mensaje.includes('auxiliares encender')|| mensaje.includes('pasillo encender')){
 voz.text = 'Listo!!!'
 var channel = ably.channels.get(topic_raiz+"/actions/sw8");
 channel.publish(clientId, "1"); 
@@ -279,7 +281,7 @@ console.log('Mensaje sw8 on');
 //voz.text = mensaje
 }
 
-if(mensaje.includes('Apagar pasillo neveras') || mensaje.includes('Apagar pasillo nevera') || mensaje.includes('pasillo neveras Apagar')|| mensaje.includes('pasillo nevera Apagar')){
+if(mensaje.includes('Apagar auxiliares') || mensaje.includes('Apagar pasillo') || mensaje.includes('auxiliares Apagar')|| mensaje.includes('pasillo Apagar')){
 voz.text = 'Listo!!!'
 var channel = ably.channels.get(topic_raiz+"/actions/sw8");
 channel.publish(clientId, "0"); 
@@ -472,6 +474,3 @@ if(mensaje.includes('apágate') || mensaje.includes('reiníciate') || mensaje.in
     voz.rate = 0.9; // velocidad de reproduccion valor menor mas lento
     window.speechSynthesis.speak(voz)
 }
-
-
-
