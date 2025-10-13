@@ -1,8 +1,8 @@
-const contenido = document.querySelector('.contenido')
+const contenido = document.querySelector('.contenido');
 var mensaje;
 
 function iniciar_reco_VOZ(){
-  document.getElementById("btn").style.display = "none" 
+  document.getElementById("btn").style.display = "none" ;
   aranque();
 }
 
@@ -474,3 +474,4 @@ if(mensaje.includes('apágate') || mensaje.includes('reiníciate') || mensaje.in
     voz.rate = 0.9; // velocidad de reproduccion valor menor mas lento
     window.speechSynthesis.speak(voz)
 }
+
