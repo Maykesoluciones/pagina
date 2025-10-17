@@ -137,6 +137,10 @@ eventSource.onmessage = function (event) {
         console.log("autenticar")
       }
     }
+
+    setTimeout(() => {
+      contenido.innerHTML= "";
+          },10000);
     
   }
 };
@@ -153,7 +157,7 @@ function tiempo_exit() {
       let autorizo = "true";
       localStorage.setItem("entrar_pagina", autorizo);
     } else {
-    //window.location = "https://maykesoluciones.github.io/pagina/Pruebas/html/signin.html";
+    window.location = "https://maykesoluciones.github.io/pagina/Pruebas/html/signin.html";
     }
   }, 2000);
 }

@@ -29,6 +29,7 @@ function aranque() {
         var channel = ably.channels.get(topic_raiz+topic_github_actualizacion_envia);
         channel.publish(clientId, "Aceptado," + mensaje); 
         console.log('Aceptada autenticacion');
+        ota_autenticar = false;
     }
   } 
   //////////////////////////////////////////////////////////////////////////////////////
@@ -47,10 +48,6 @@ console.log(event.error);
         contenido.innerHTML = 'Escucho...' 
         console.log("sonido inicio");     
         },1000); 
-    
-    setTimeout(() => {
-        contenido.innerHTML= "";
-            },10000);
   }
 
   //////////////////////////////////////////////////////////////////////////////////////
