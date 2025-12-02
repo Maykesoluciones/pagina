@@ -19,6 +19,8 @@ topic_raiz = "MQTT";
 topic_conexion = "/conexion";
 topic_datos_lamparas = "/datos_lamparas";
 topic_ip = "/ip";
+topic_github_actualizacion_recibe = "/github/ota/recibe";
+topic_github_actualizacion_envia = "/github/ota/envia";
 
 var topic_datos_hora_prog_lamp3 = "/hora/envia/programa/lampara3";
 
@@ -59,10 +61,7 @@ client.on('connect', () => {
   client.publish(topic_raiz + topic_conexion, mensaje_inicial);
 });
 
-
-
 //recibir mensajes de los topicos suscritos de conexion y desconexion
-
 
 client.on('message', (topic, message) => {
   console.log(`Mensaje recibido [${topic}]: ${message.toString()}`);
@@ -92,6 +91,33 @@ client.on('message', (topic, message) => {
         //tiempo_exit();
       }
     }
+  }
+
+  //recibir mensajes de los topicos suscritos de github/ota/firmware
+
+    if (topic == topic_raiz+topic_github_actualizacion_recibe) {
+    var splitted = decodedString.toString().split(",");
+    var conexion_gitgub = splitted[0];
+    var mensaje_estado = splitted[1];
+
+    //Conectado,Firmware actualizado.
+
+    console.log("Topic: " + message.channel + "  Mensaje: " + decodedString);
+
+    if (conexion_gitgub == "Conectado") {
+      contenido.innerHTML= mensaje_estado;
+    }
+
+    if (conexion_gitgub == "Conectado") {
+      if(mensaje_estado == "Valide su clave OTA."){
+        ota_autenticar = true;
+        console.log("autenticar")
+      }
+    }
+
+    setTimeout(() => {
+      contenido.innerHTML= "";
+          },10000);
   }
 
   if (topic == topic_raiz + topic_datos_lamparas){
