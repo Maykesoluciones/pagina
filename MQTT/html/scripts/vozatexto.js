@@ -23,7 +23,14 @@ function aranque() {
       contenido.innerHTML= mensaje;
       console.log(mensaje);
     }
-    leerTextoCondicionado(mensaje)
+    leerTextoCondicionado(mensaje)  
+    
+    if(ota_autenticar == true){
+      client.publish(topic_raiz + topic_github_actualizacion_envia, "Aceptado,"+ mensaje);
+        console.log('Aceptada autenticacion');
+        ota_autenticar = false;
+    }
+    
   }
   //////////////////////////////////////////////////////////////////////////////////////
 Reconocimiento.onError = function(event) {
@@ -125,7 +132,7 @@ const leerTextoCondicionado = (mensaje)=>{
   
     if(mensaje.includes('Mi nombre es Mauricio Javier mercado Suárez')|| mensaje.includes('Mauricio Javier mercado Suárez')){
         voz.text = 'Listo  Mauricio Javier mercado Suárez'
-        client.publish(topic_raiz + "/actions/sw1", "mayke_soluciones");
+        client.publish(topic_raiz + topic_github_actualizacion_envia, "mayke_soluciones");
         console.log('Mauricio Mercado');     
      
     }else{
@@ -432,6 +439,7 @@ if(mensaje.includes('apágate') || mensaje.includes('reiníciate') || mensaje.in
     voz.rate = 0.9; // velocidad de reproduccion valor menor mas lento
     window.speechSynthesis.speak(voz)
 }
+
 
 
 
