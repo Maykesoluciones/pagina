@@ -8,6 +8,7 @@ var entrar_pagina;
 var entrarpaginaWEB;
 var entrarPagina = localStorage.getItem("entrar_pagina");
 console.log(entrarPagina);
+var ota_autenticar = "false";
 
 var conteo_refres;
 
