@@ -11,11 +11,7 @@ console.log(entrarPagina);
 var ota_autenticar = "false";
 
 var conteo_refres;
-
-url = "https://realtime.ably.io/event-stream?";
-version = "2";//1,2
-username = "VRDsGQ.B_CYIQ";
-password = "dPUOfDfiuRQrRSX9wt1fcYc9v-AKBdGQa2jTP60_D5g";
+const API_KEY = "VRDsGQ.B_CYIQ:dPUOfDfiuRQrRSX9wt1fcYc9v-AKBdGQa2jTP60_D5g"; 
 topic_raiz = "Kelly";
 topic_conexion = "/conexion";
 topic_datos_lamparas = "/datos_lamparas";
@@ -36,9 +32,39 @@ topic_dato_lampara_8 = "/datolampara8";
 
 // // Mensajes
 mensaje_inicial = "Desconectado";
-clientId = " WEB FAM-Bendecida--->> " + Math.floor(Math.random() * 1000000 + 1);
 
-var ably = new Ably.Realtime(username + ":" + password);
+const ably = new Ably.Realtime({
+    key: API_KEY,
+    clientId: "cliente_" + Math.floor(Math.random()*10000)
+});
+
+let channel = null;
+
+ably.connection.on((stateChange) => {
+  log("Conexión: " + stateChange.current);
+  console.log(stateChange);  
+});
+
+ably.connection.once("connected", async () => {
+
+  log("Conectado a Ably");
+
+ channel = ably.channels.get(topic_raiz + topic_conexion);
+  channel.on((stateChange) => {
+    log("Canal: " + stateChange.current);
+    console.log(stateChange);
+  });
+  await channel.attach();
+  log("Canal adjuntado");
+
+  await channel.subscribe((msg) => {
+    console.log("MENSAJE RECIBIDO:", msg);
+    log("[" + msg.clientId + "] " + JSON.stringify(msg.data));
+  });
+
+  log("Suscrito al canal " + topic_raiz + topic_conexion);
+});
+
 
 var channel = ably.channels.get(topic_raiz + topic_conexion);
 channel.publish(clientId, mensaje_inicial); // publicar siempre que inice el servidor web con mensaje de inicio
