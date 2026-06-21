@@ -47,7 +47,7 @@ ably.connection.on((stateChange) => {
 
 ably.connection.once("connected", async () => {
 
-log("Conectado a Ably");
+console.log("Conectado a Ably");
 
  const canalPublica = ably.channels.get(topic_raiz + topic_conexion);
  const canalRecibe  = ably.channels.get(topic_raiz + topic_conexion);
@@ -56,7 +56,7 @@ await canalPublica.publish("estado", "conectado");
 
 // Escuchar mensajes entrantes
 await canalRecibe.subscribe((msg) => {
-log(JSON.stringify(msg.data));
+console.log(JSON.stringify(msg.data));
 });
 
 log("Escuchando en: " + TOPIC_RECIBE);
