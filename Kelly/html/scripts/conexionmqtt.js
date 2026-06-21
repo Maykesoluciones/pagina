@@ -41,7 +41,7 @@ const ably = new Ably.Realtime({
 let channel = null;
 
 ably.connection.on((stateChange) => {
-  log("Conexión: " + stateChange.current);
+  console.log("Conexión: " + stateChange.current);
   console.log(stateChange);  
 });
 
@@ -59,7 +59,7 @@ await canalRecibe.subscribe((msg) => {
 console.log(JSON.stringify(msg.data));
 });
 
-log("Escuchando en: " + TOPIC_RECIBE);
+console.log("Escuchando en: " + topic_raiz + topic_conexion);
 
 });
 
