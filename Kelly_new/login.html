@@ -140,7 +140,7 @@
             lucide.createIcons();
             
             if (localStorage.getItem("kelly_session") === "activa") {
-                window.location.href = "dashboard.html";
+                window.location.replace("dashboard.html");
                 return;
             }
             inicializarAbly();
