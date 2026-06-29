@@ -181,7 +181,7 @@
                 lucide.createIcons();
     
                 if (localStorage.getItem("kelly_session") !== "activa") {
-                    window.location.href = "login.html";
+                    window.location.replace("login.html");
                     return;
                 }
     
