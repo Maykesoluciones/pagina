@@ -271,7 +271,6 @@
                 await canalControl.publish("comando", `L${numero}:${nuevoEstado}`);
             }
         }
-
         // SEGURIDAD: Limpieza absoluta del historial al salir
         function cerrarSesion() {
             localStorage.removeItem("kelly_session");
