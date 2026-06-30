@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Domótica Kelly - Login</title>
-    <link rel="shortcut icon" href="imagenes/iconoMayKe_s.ico" type="image/x-icon" />
+    <link rel="icon" type="image/png" href="imagenes/icono.png">
     <style>
-        /* Variables mutables para Temas (Por defecto: Oscuro) */
         :root {
             --bg-body: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             --card-bg: rgba(30, 41, 59, 0.7);
@@ -32,9 +31,8 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
-        body { background: var(--bg-body); color: var(--text-main); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; transition: background 0.3s ease, color 0.3s ease; }
+        body { background: var(--bg-body); color: var(--text-main); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; transition: background 0.3s ease, color 0.3s ease; position: relative; }
         
-        /* Botón Flotante para cambiar Tema */
         .theme-toggle { position: absolute; top: 20px; right: 20px; background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text-main); padding: 10px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); backdrop-filter: blur(8px); transition: all 0.2s; }
         .theme-toggle:hover { transform: scale(1.1); }
 
@@ -69,7 +67,7 @@
         .error-msg { color: #ef4444; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.15); padding: 12px; border-radius: 12px; font-size: 14px; text-align: center; margin-bottom: 20px; display: none; align-items: center; justify-content: center; gap: 8px; }
     </style>
     <script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
-    <script src="scripts/lucide.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
 
@@ -79,7 +77,7 @@
 
     <div class="login-card">
         <div class="header">
-            <img src="imagenes/iconoMayKe_s.png" alt="Logo" class="login-logo">
+            <img src="imagenes/icono.png" alt="Logo" class="login-logo">
             <h2>Domótica Residencial</h2>
             <p>Panel Central de Iluminación</p>
         </div>
@@ -123,7 +121,7 @@
     </div>
 
     <script>
-        const ABLY_API_KEY = "jg4T3w.VZyJ8A:WIK91N6Jp_B422bXl9HwfKXM7SPTztmmeSh_-SRyCi8"; 
+        const ABLY_API_KEY = "jg4T3w.VZyJ8A:WIK91N6Jp_B422bXl9HwfKXM7SPTztmmeSh_-SRyCi8";
         const TOPIC_SUB = "channels:home:estado:auth"; 
         const TOPIC_PUB = "channels:home:control:auth"; 
 
@@ -132,15 +130,15 @@
         let ably, canalControl, canalEstado;
 
         window.onload = () => {
-            // Cargar e iniciar Tema guardado
             const savedTheme = localStorage.getItem("theme") || "dark";
             document.documentElement.setAttribute("data-theme", savedTheme);
             document.getElementById("theme-icon").setAttribute("data-lucide", savedTheme === "dark" ? "sun" : "moon");
             
             lucide.createIcons();
             
+            // SEGURIDAD BLINDADA AL BOTÓN DE ADELANTE
             if (localStorage.getItem("kelly_session") === "activa") {
-                window.location.replace("dashboard.html");
+                window.location.replace("dashboard.html"); 
                 return;
             }
             inicializarAbly();
@@ -190,7 +188,7 @@
                     else if (payload === "AUTH:OK") {
                         localStorage.setItem("kelly_session", "activa");
                         localStorage.setItem("refrescos_cuenta", "0"); 
-                        window.location.href = "dashboard.html";
+                        window.location.replace("dashboard.html");
                     } 
                     else if (payload === "AUTH:ERROR") {
                         document.getElementById('error-text').innerText = "Credenciales incorrectas.";
@@ -239,9 +237,9 @@
             solicitarAcceso();
           }
         }
-window.onkeydown = presionar_tecla;  
-
-
+      window.onkeydown = presionar_tecla;  
+        
     </script>
 </body>
 </html>
+
