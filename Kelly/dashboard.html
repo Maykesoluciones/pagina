@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domótica Kelly - Panel</title>
+    <<link rel="shortcut icon" href="imagenes/iconoMayKe_s.ico" type="image/x-icon" />
+    <style>
+        :root {
+            --bg-body: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+            --danger: #ef4444;
+            --box-luz-bg: rgba(15, 23, 42, 0.5);
+            --luz-on-bg: linear-gradient(135deg, rgba(234, 179, 8, 0.15) 0%, rgba(234, 179, 8, 0.05) 100%);
+            --luz-on-border: rgba(234, 179, 8, 0.4);
+            --mic-active: #ef4444;
+        }
+        [data-theme="light"] {
+            --bg-body: #f1f5f9;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-border: rgba(15, 23, 42, 0.08);
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --box-luz-bg: #e2e8f0;
+            --luz-on-bg: linear-gradient(135deg, rgba(234, 179, 8, 0.12) 0%, rgba(254, 240, 138, 0.3) 100%);
+            --luz-on-border: rgba(234, 179, 8, 0.5);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background: var(--bg-body); color: var(--text-main); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 15px; transition: background 0.3s, color 0.3s; }
+        
+        .container { width: 100%; max-width: 480px; background: var(--card-bg); border: 1px solid var(--card-border); padding: 25px 20px; border-radius: 24px; box-shadow: 0 25px 50px rgba(0,0,0,0.15); backdrop-filter: blur(20px); transition: background 0.3s, border 0.3s; }
+        
+        /* Barra de Encabezado Izquierda con Perfil Avatar */
+        .header-panel { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .user-profile { display: flex; align-items: center; gap: 12px; }
+        
+        /* Imagen familiar en círculo perfecto */
+        .avatar-familiar { width: 46px; height: 46px; border-radius: 50%; object-fit: cover; border: 2px solid #3b82f6; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+        
+        .user-info h2 { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; }
+        .user-info p { font-size: 12px; color: var(--text-muted); }
+
+        /* Contenedor alineado para los tres botones de acción */
+        .actions-top { display: flex; align-items: center; gap: 8px; }
+        .btn-action-icon { background: var(--box-luz-bg); border: none; color: var(--text-main); width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .btn-action-icon:hover { transform: scale(1.05); background: rgba(148, 163, 184, 0.2); }
+        
+        /* Estilo animado cuando el micrófono esté encendido */
+        .btn-action-icon.listening { color: white; background: var(--mic-active); animation: pulse-mic 1.5s infinite; }
+
+        @keyframes pulse-mic {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+
+        .hardware-banner { display: flex; align-items: center; justify-content: space-between; background: var(--box-luz-bg); padding: 12px 16px; border-radius: 14px; margin-bottom: 20px; font-size: 13px; }
+        .hw-info { display: flex; align-items: center; gap: 10px; font-weight: 600; }
+        .status-dot { width: 9px; height: 9px; background-color: #64748b; border-radius: 50%; }
+        .status-dot.online { background-color: var(--success); box-shadow: 0 0 10px var(--success); }
+        
+        .counter-badge { font-size: 10px; font-weight: 700; color: var(--danger); text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .grid-luces { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+        .card-luz { background: var(--box-luz-bg); border: 1px solid transparent; padding: 20px 14px; border-radius: 18px; text-align: center; cursor: pointer; transition: all 0.2s ease; user-select: none; display: flex; flex-direction: column; align-items: center; }
+        .card-luz:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        
+        .luz-icon-box { width: 44px; height: 44px; background: var(--card-bg); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; color: var(--text-muted); transition: all 0.2s; }
+        .luz-nombre { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+        .luz-estado { font-size: 11px; font-weight: 500; color: var(--text-muted); }
+
+        .card-luz.on { background: var(--luz-on-bg); border-color: var(--luz-on-border); }
+        .card-luz.on .luz-icon-box { background: rgba(234, 179, 8, 0.2); color: #eab308; filter: drop-shadow(0 0 6px #eab308); }
+        .card-luz.on .luz-estado { color: #eab308; font-weight: 700; }
+    </style>
+    <script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header-panel">
+            <div class="user-profile">
+                <img src="imagenes/familia.jpg" alt="Familia" class="avatar-familiar">
+                <div class="user-info">
+                    <h2>Hogar Kelly</h2>
+                    <p>Panel de Control</p>
+                </div>
+            </div>
+            
+            <div class="actions-top">
+                <button id="btn-mic" class="btn-action-icon" onclick="toggleMicrofono()" title="Control por Voz">
+                    <i data-lucide="mic"></i>
+                </button>
+                
+                <button class="btn-action-icon" onclick="toggleTheme()" title="Cambiar Color">
+                    <i id="theme-icon" data-lucide="sun"></i>
+                </button>
+                
+                <button class="btn-action-icon" onclick="cerrarSesion()" title="Cerrar Sesión" style="color: var(--danger)">
+                    <i data-lucide="log-out"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="hardware-banner">
+            <div class="hw-info">
+                <div id="hw-status-dash" class="status-dot"></div>
+                <span id="hw-text">Sincronizando...</span>
+            </div>
+            <div id="badge-refrescos" class="counter-badge">Cargando...</div>
+        </div>
+
+        <div class="grid-luces">
+            <div id="L1" class="card-luz" onclick="toggleLampara(1)">
+                <div class="luz-icon-box"><i data-lucide="lightbulb"></i></div>
+                <div class="luz-nombre">Lámpara 1</div>
+                <div id="state_1" class="luz-estado">Apagado</div>
+            </div>
+            <div id="L2" class="card-luz" onclick="toggleLampara(2)">
+                <div class="luz-icon-box"><i data-lucide="lightbulb"></i></div>
+                <div class="luz-nombre">Lámpara 2</div>
+                <div id="state_2" class="luz-estado">Apagado</div>
+            </div>
+            <div id="L3" class="card-luz" onclick="toggleLampara(3)">
+                <div class="luz-icon-box"><i data-lucide="lightbulb"></i></div>
+                <div class="luz-nombre">Lámpara 3</div>
+                <div id="state_3" class="luz-estado">Apagado</div>
+            </div>
+            <div id="L4" class="card-luz" onclick="toggleLampara(4)">
+                <div class="luz-icon-box"><i data-lucide="lightbulb"></i></div>
+                <div class="luz-nombre">Lámpara 4</div>
+                <div id="state_4" class="luz-estado">Apagado</div>
+            </div>
+            <div id="L5" class="card-luz" onclick="toggleLampara(5)">
+                <div class="luz-icon-box"><i data-lucide="lightbulb"></i></div>
+                <div class="luz-nombre">Lámpara 5</div>
+                <div id="state_5" class="luz-estado">Apagado</div>
+            </div>
+            <div id="L6" class="card-luz" onclick="toggleLampara(6)">
+                <div class="luz-icon-box"><i data-lucide="lightbulb"></i></div>
+                <div class="luz-nombre">Lámpara 6</div>
+                <div id="state_6" class="luz-estado">Apagado</div>
+            </div>
+            <div id="L7" class="card-luz" onclick="toggleLampara(7)">
+                <div class="luz-icon-box"><i data-lucide="lightbulb"></i></div>
+                <div class="luz-nombre">Lámpara 7</div>
+                <div id="state_7" class="luz-estado">Apagado</div>
+            </div>
+            <div id="L8" class="card-luz" onclick="toggleLampara(8)">
+                <div class="luz-icon-box"><i data-lucide="lightbulb"></i></div>
+                <div class="luz-nombre">Lámpara 8</div>
+                <div id="state_8" class="luz-estado">Apagado</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ABLY_API_KEY = "jg4T3w.pYvemQ:S6Vhw3e_UP6L7VjoT2h6SV1MOjkjjGFS6jk93p7Ttpw"; 
+        const TOPIC_SUB = "channels:home:estado:luces"; 
+        const TOPIC_PUB = "channels:home:control:luces"; 
+
+        const clientId = "web_dash_" + Math.random().toString(16).substr(2, 6);
+        let estadosLamparas = Array(8).fill(false);
+        let ably, canalControl, canalEstado;
+        let micEscuchando = false;
+
+        window.onload = () => {
+            const savedTheme = localStorage.getItem("theme") || "dark";
+            document.documentElement.setAttribute("data-theme", savedTheme);
+            document.getElementById("theme-icon").setAttribute("data-lucide", savedTheme === "dark" ? "sun" : "moon");
+
+            lucide.createIcons();
+
+            // SEGURIDAD: Bloqueo inmediato si intenta entrar sin token
+            if (localStorage.getItem("kelly_session") !== "activa") {
+                window.location.replace("login.html"); 
+                return;
+            }
+
+            let cuentaRefrescos = parseInt(localStorage.getItem("refrescos_cuenta") || "0");
+            cuentaRefrescos++;
+            let restantes = 5 - cuentaRefrescos;
+            if (cuentaRefrescos > 5) {
+                cerrarSesion();
+                return;
+            }
+            localStorage.setItem("refrescos_cuenta", cuentaRefrescos.toString());
+            document.getElementById("badge-refrescos").innerText = `Refrescos: ${restantes}/5`;
+
+            inicializarAblyDashboard();
+        };
+
+        function toggleMicrofono() {
+            const micBtn = document.getElementById("btn-mic");
+            micEscuchando = !micEscuchando;
+            if(micEscuchando) {
+                micBtn.classList.add("listening");
+            } else {
+                micBtn.classList.remove("listening");
+            }
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute("data-theme");
+            const newTheme = currentTheme === "dark" ? "light" : "dark";
+            document.documentElement.setAttribute("data-theme", newTheme);
+            localStorage.setItem("theme", newTheme);
+            document.getElementById("theme-icon").setAttribute("data-lucide", newTheme === "dark" ? "sun" : "moon");
+            lucide.createIcons();
+        }
+
+        function inicializarAblyDashboard() {
+            ably = new Ably.Realtime({ key: ABLY_API_KEY, clientId: clientId });
+            ably.connection.on("connected", async () => {
+                document.getElementById('hw-status-dash').className = 'status-dot online';
+                document.getElementById('hw-text').innerText = "En línea";
+
+                canalControl = ably.channels.get(TOPIC_PUB);
+                canalEstado = ably.channels.get(TOPIC_SUB);
+
+                await canalEstado.subscribe((msg) => {
+                    let payload = msg.data;
+                    if (payload instanceof ArrayBuffer || ArrayBuffer.isView(payload)) {
+                        payload = new TextDecoder().decode(payload);
+                    }
+
+                    if(payload === "ESP32:ONLINE") {
+                        document.getElementById('hw-status-dash').className = 'status-dot online';
+                        document.getElementById('hw-text').innerText = "En línea";
+                        return;
+                    }
+                    if (payload === "ESP32:OFFLINE") {
+                        alert("Alerta: Se perdió la comunicación con el hardware.");
+                        cerrarSesion();
+                        return;
+                    }
+
+                    if (payload.includes(",")) {
+                        let datos = payload.split(",");
+                        if (datos.length === 8) {
+                            for (let i = 0; i < 8; i++) {
+                                let num = i + 1;
+                                let estaEncendido = (datos[i] === "1");
+                                estadosLamparas[i] = estaEncendido;
+                                const card = document.getElementById(`L${num}`);
+                                const stateText = document.getElementById(`state_${num}`);
+                                if (card) card.classList.toggle('on', estaEncendido);
+                                if (stateText) stateText.textContent = estaEncendido ? 'Encendido' : 'Apagado';
+                            }
+                        }
+                    }
+                });
+                await canalControl.publish("comando", "PING");
+            });
+            ably.connection.on("disconnected", () => {
+                document.getElementById('hw-status-dash').className = 'status-dot';
+                document.getElementById('hw-text').innerText = "Desconectado";
+            });
+        }
+
+        async function toggleLampara(numero) {
+            const nuevoEstado = estadosLamparas[numero - 1] ? 0 : 1;
+            if(canalControl) {
+                await canalControl.publish("comando", `L${numero}:${nuevoEstado}`);
+            }
+        }
+
+        // SEGURIDAD: Limpieza absoluta del historial al salir
+        function cerrarSesion() {
+            localStorage.removeItem("kelly_session");
+            localStorage.removeItem("refrescos_cuenta");
+            window.location.replace("login.html"); 
+        }
+    </script>
+</body>
+</html>
