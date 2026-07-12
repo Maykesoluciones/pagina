@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domótica Kelly - Panel</title>
+    <link rel="shortcut icon" href="imagenes/iconoMayKe_s.ico" type="image/x-icon" />
+    <style>
+        :root {
+            --bg-body: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+            --danger: #ef4444;
+            --box-luz-bg: rgba(15, 23, 42, 0.5);
+            --luz-on-bg: linear-gradient(135deg, rgba(234, 179, 8, 0.15) 0%, rgba(234, 179, 8, 0.05) 100%);
+            --luz-on-border: rgba(234, 179, 8, 0.4);
+            --mic-active: #ef4444;
+            --sidebar-bg: #1e293b;
+            --overlay-bg: rgba(15, 23, 42, 0.7);
+        }
+        [data-theme="light"] {
+            --bg-body: #f1f5f9;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-border: rgba(15, 23, 42, 0.08);
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --box-luz-bg: #e2e8f0;
+            --luz-on-bg: linear-gradient(135deg, rgba(234, 179, 8, 0.12) 0%, rgba(254, 240, 138, 0.3) 100%);
+            --luz-on-border: rgba(234, 179, 8, 0.5);
+            --sidebar-bg: #ffffff;
+            --overlay-bg: rgba(0, 0, 0, 0.4);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background: var(--bg-body); color: var(--text-main); min-height: 100vh; transition: background 0.3s, color 0.3s; }
+        
+        /* --- NUEVO BOTÓN MENÚ INTEGRADO EN EL HEADER --- */
+        .btn-header-menu {
+            background: var(--box-luz-bg);
+            border: none;
+            color: var(--text-main);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .btn-header-menu:hover {
+            transform: scale(1.05);
+            background: rgba(148, 163, 184, 0.2);
+        }
+
+        /* --- FONDO OSCURO (OVERLAY) --- */
+        .nav-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--overlay-bg);
+            backdrop-filter: blur(3px);
+            z-index: 1001;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .nav-overlay.show {
+            display: block;
+            opacity: 1;
+        }
+
+        /* --- MENÚ LATERAL IZQUIERDO (SIDEBAR) --- */
+        .sidebar-menu {
+            position: fixed;
+            top: 0;
+            left: -280px; /* Oculto por defecto */
+            width: 280px;
+            height: 100vh;
+            background: var(--sidebar-bg);
+            z-index: 1002;
+            display: flex;
+            flex-direction: column;
+            padding: 25px 20px;
+            box-shadow: 5px 0 25px rgba(0,0,0,0.3);
+            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sidebar-menu.open {
+            left: 0; /* Desliza hacia la vista */
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .sidebar-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+        }
+
+        .btn-close {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+        }
+        .btn-close:hover {
+            color: var(--danger);
+        }
+
+        .nav-items-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 18px;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            justify-content: flex-start;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: var(--box-luz-bg);
+            color: var(--text-main);
+        }
+
+        /* --- CONTENIDO PRINCIPAL --- */
+        .main-layout {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 15px;
+            min-height: 100vh;
+        }
+
+        .container { width: 100%; max-width: 480px; background: var(--card-bg); border: 1px solid var(--card-border); padding: 25px 20px; border-radius: 24px; box-shadow: 0 25px 50px rgba(0,0,0,0.15); backdrop-filter: blur(20px); transition: background 0.3s, border 0.3s; }
+        
+        .header-panel { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .user-profile { display: flex; align-items: center; gap: 12px; }
+        
+        .avatar-familiar { width: 46px; height: 46px; border-radius: 50%; object-fit: cover; border: 2px solid #3b82f6; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+        
+        .user-info h2 { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; }
+        .user-info p { font-size: 12px; color: var(--text-muted); }
+
+        .actions-top { display: flex; align-items: center; gap: 8px; }
+        .btn-action-icon { background: var(--box-luz-bg); border: none; color: var(--text-main); width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .btn-action-icon:hover { transform: scale(1.05); background: rgba(148, 163, 184, 0.2); }
+        
+        .btn-action-icon.listening { color: white; background: var(--mic-active); animation: pulse-mic 1.5s infinite; }
+
+        @keyframes pulse-mic {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+
+        .hardware-banner { display: flex; align-items: center; justify-content: space-between; background: var(--box-luz-bg); padding: 12px 16px; border-radius: 14px; margin-bottom: 20px; font-size: 13px; }
+        .hw-info { display: flex; align-items: center; gap: 10px; font-weight: 600; }
+        .status-dot { width: 9px; height: 9px; background-color: #64748b; border-radius: 50%; }
+        .status-dot.online { background-color: var(--success); box-shadow: 0 0 10px var(--success); }
+        
+        .counter-badge { font-size: 10px; font-weight: 700; color: var(--danger); text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .grid-luces { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+        .card-luz { background: var(--box-luz-bg); border: 1px solid transparent; padding: 20px 14px; border-radius: 18px; text-align: center; cursor: pointer; transition: all 0.2s ease; user-select: none; display: flex; flex-direction: column; align-items: center; }
+        .card-luz:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        
+        .luz-icon-box { width: 44px; height: 44px; background: var(--card-bg); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; color: var(--text-muted); transition: all 0.2s; }
+        .luz-nombre { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+        .luz-estado { font-size: 11px; font-weight: 500; color: var(--text-muted); }
+
+        .card-luz.on { background: var(--luz-on-bg); border-color: var(--luz-on-border); }
+        .card-luz.on .luz-icon-box { background: rgba(234, 179, 8, 0.2); color: #eab308; filter: drop-shadow(0 0 6px #eab308); }
+        .card-luz.on .luz-estado { color: #eab308; font-weight: 700; }
+    </style>
+    <script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+    <!-- CAPA OSCURA DE FONDO -->
+    <div class="nav-overlay" id="navOverlay" onclick="toggleMenu()"></div>
+
+    <!-- MENÚ LATERAL DESLIZANTE -->
+    <aside class="sidebar-menu" id="sidebarMenu">
+        <div class="sidebar-header">
+            <span class="sidebar-title">Menú Kelly</span>
+            <button class="btn-close" onclick="toggleMenu()" title="Cerrar">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+        
+        <div class="nav-items-container">
+            <button class="nav-item active" title="Panel de Control">
+                <i data-lucide="layout-dashboard"></i>
+                <span>Panel de Control</span>
+            </button>
+            <button class="nav-item" title="Horarios Guardados" onclick="window.location.href='horarios.html'">
+                <i data-lucide="calendar"></i>
+                <span>Horarios Guardados</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- ÁREA PRINCIPAL -->
+    <main class="main-layout">
+        <div class="container">
+           <div class="header-panel">
+                <div class="user-profile">
+                    <!-- BOTÓN MENÚ INSERTADO EXACTAMENTE ANTES DEL AVATAR -->
+                    <button class="btn-header-menu" onclick="toggleMenu()" title="Abrir Menú">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu"><path d="M4 5h16"></path><path d="M4 12h16"></path><path d="M4 19h16"></path></svg>
+                    </button>
+                    
+                    <img src="imagenes/familia.jpg" alt="Familia" class="avatar-familiar">
+                    <div class="user-info">
+                        <h2>Hogar Kelly</h2>
+                        <p>Panel de Control</p>
+                    </div>
+                </div>
+                
+                <div class="actions-top">
+                    <button id="btn-mic" class="btn-action-icon" onclick="toggleMicrofono()" title="Control por Voz">
+                        <i data-lucide="mic"></i>
+                    </button>
+                    
+                    <button class="btn-action-icon" onclick="toggleTheme()" title="Cambiar Color">
+                        <i id="theme-icon" data-lucide="sun"></i>
+                    </button>
+                    
+                    <button class="btn-action-icon" onclick="cerrarSesion()" title="Cerrar Sesión" style="color: var(--danger)">
+                        <i data-lucide="log-out"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="hardware-banner">
+                <div class="hw-info">
+                    <div id="hw-status-dash" class="status-dot"></div>
+                    <span id="hw-text">Sincronizando...</span>
+                </div>
+                <div id="badge-refrescos" class="counter-badge"></div>
+            </div>
+
+            <div class="grid-luces">
+                <div id="L1" class="card-luz" onclick="toggleLampara(1)">
+                    <div class="luz-icon-box"><i data-lucide="lightbulb"></i></div>
+                    <div class="luz-nombre">Habit. Sara</div>
+                    <div id="state_1" class="luz-estado">Apagado</div>
+                </div>
+                <div id="L2" class="card-luz" onclick="toggleLampara(2)">
+                    <div class="luz-icon-box"><i data-lucide="lightbulb"></i></div>
+                    <div class="luz-nombre">A. Labores</div>
+                    <div id="state_2" class="luz-estado">Apagado</div>
+                </div>
+                <div id="L3" class="card-luz" onclick="toggleLampara(3)">
+                    <div class="luz-icon-box"><i data-lucide="lightbulb"></i></div>
+                    <div class="luz-nombre">Escalera Ext.</div>
+                    <div id="state_3" class="luz-estado">Apagado</div>
+                </div>
+                <div id="L4" class="card-luz" onclick="toggleLampara(4)">
+                    <div class="luz-icon-box"><i data-lucide="lightbulb"></i></div>
+                    <div class="luz-nombre">Sala Princ.</div>
+                    <div id="state_4" class="luz-estado">Apagado</div>
+                </div>
+                <div id="L5" class="card-luz" onclick="toggleLampara(5)">
+                    <div class="luz-icon-box"><i data-lucide="lightbulb"></i></div>
+                    <div class="luz-nombre">Cocina</div>
+                    <div id="state_5" class="luz-estado">Apagado</div>
+                </div>
+                <div id="L6" class="card-luz" onclick="toggleLampara(6)">
+                    <div class="luz-icon-box"><i data-lucide="lightbulb"></i></div>
+                    <div class="luz-nombre">Frente Casa</div>
+                    <div id="state_6" class="luz-estado">Apagado</div>
+                </div>
+                <div id="L7" class="card-luz" onclick="toggleLampara(7)">
+                    <div class="luz-icon-box"><i data-lucide="lightbulb"></i></div>
+                    <div class="luz-nombre">Habt. MayKe</div>
+                    <div id="state_7" class="luz-estado">Apagado</div>
+                </div>
+                <div id="L8" class="card-luz" onclick="toggleLampara(8)">
+                    <div class="luz-icon-box"><i data-lucide="lightbulb"></i></div>
+                    <div class="luz-nombre">Aux. Pasillo</div>
+                    <div id="state_8" class="luz-estado">Apagado</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="scripts/p5.min.js"></script>
+    <script src="scripts/p5.dom.min.js"></script>
+    <script src="scripts/p5.speech.js"></script>
+
+    <script>
+        const ABLY_API_KEY = "jg4T3w.pYvemQ:S6Vhw3e_UP6L7VjoT2h6SV1MOjkjjGFS6jk93p7Ttpw"; 
+        const TOPIC_SUB = "channels:kelly:estado:luces"; 
+        const TOPIC_PUB = "channels:kelly:control:luces"; 
+
+        var mensaje;
+        var ota_autenticar; 
+        var micBtn = document.getElementById("btn-mic");
+        let todo_on_off = false;
+
+        const clientId = "web_dash_" + Math.random().toString(16).substr(2, 6);
+        let estadosLamparas = Array(8).fill(false);
+        let ably, canalControl, canalEstado;
+
+        function toggleMenu() {
+            const sidebar = document.getElementById("sidebarMenu");
+            const overlay = document.getElementById("navOverlay");
+            
+            sidebar.classList.toggle("open");
+            
+            if(sidebar.classList.contains("open")) {
+                overlay.classList.add("show");
+            } else {
+                overlay.classList.remove("show");
+            }
+        }
+  
+        window.onload = () => {
+            const savedTheme = localStorage.getItem("theme") || "dark";
+            document.documentElement.setAttribute("data-theme", savedTheme);
+            document.getElementById("theme-icon").setAttribute("data-lucide", savedTheme === "dark" ? "sun" : "moon");
+
+            lucide.createIcons();
+
+            if (localStorage.getItem("kelly_session") !== "activa") {
+                window.location.replace("login.html"); 
+                return;
+            }
+
+            let cuentaRefrescos = parseInt(localStorage.getItem("refrescos_cuenta") || "0");
+            cuentaRefrescos++;
+            if (cuentaRefrescos > 20) {
+                cerrarSesion();
+                return;
+            }
+            localStorage.setItem("refrescos_cuenta", cuentaRefrescos.toString());
+            inicializarAblyDashboard();
+        };
+
+        function toggleMicrofono() {
+            micBtn = document.getElementById("btn-mic");
+            micBtn.classList.add("listening");
+            aranque();
+        }
+
+        function aranque() {
+            Reconocimiento = new p5.SpeechRec('es-CO', voz_escuchada);
+            Reconocimiento.start();
+            
+            function voz_escuchada() {
+                if (Reconocimiento.resultValue) {
+                    mensaje = Reconocimiento.resultString;
+                    document.getElementById("badge-refrescos").innerText = mensaje;
+                    console.log(mensaje);
+                }
+                text_processing(mensaje)
+                if(ota_autenticar == true){
+                    console.log('Aceptada autenticacion');
+                    ota_autenticar = false;
+                }
+            }
+            Reconocimiento.onError = function(event) {
+                console.log(event.error);
+                setTimeout(() => {
+                    document.getElementById("badge-refrescos").innerText = 'Error: ' + event.error;
+                    micBtn.classList.remove("listening");
+                    console.log("Error");
+                },1000);
+            }
+            Reconocimiento.onStart = function(event) {
+                setTimeout(() => {
+                    document.getElementById("badge-refrescos").innerText = 'Escucho...';
+                    console.log("sonido inicio");
+                },1000);
+            }
+            Reconocimiento.onEnd = function(event) {
+                setTimeout(() => {
+                    console.log("sonido Termidado");  
+                    micBtn.classList.remove("listening");
+                },1000);
+                setTimeout(() => {
+                    document.getElementById("badge-refrescos").innerText = '';
+                },10000);
+            }
+        }
+
+        const text_processing = (mensaje)=>{
+            const voz = new SpeechSynthesisUtterance()
+            
+            if(mensaje.includes('qué hora es') || mensaje.includes('dime la hora') || mensaje.includes('Dime la hora')){
+                var date = new Date;
+                var hours = date.getHours();
+                var minutes = date.getMinutes();
+                var ampm = hours >= 12 ? 'pm' : 'am';
+                hours = hours % 12;
+                hours = hours ? hours : 12;
+                minutes = minutes < 10 ? '0' + minutes : minutes;
+                var strTime = hours + ':' + minutes + ' ' + ampm;
+                voz.text = 'son las ' + strTime
+            }
+            
+            if(mensaje.includes('qué fecha es hoy')){
+                var date = new Date;
+                var mes = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"]  
+                voz.text = "hoy es " + date.getDate() + " de "+ mes[date.getMonth()] + "del" + date.getFullYear()
+            }
+            
+            if(mensaje.includes('Cómo te llamas') || mensaje.includes('Cuál es tu nombre')){ 
+                voz.text = 'Mi nombre es, Ely, tu asistente de Voz'
+            }
+            
+            if(mensaje.includes('Hola') || mensaje.includes('Cómo estas')  || mensaje.includes('hola como estas')){ 
+                voz.text = 'Bienvenido, a tu panel Domotico'
+            }    
+            
+            if(mensaje.includes('qué día es hoy')|| mensaje.includes('Qué día es hoy')){
+                var date = new Date;
+                var dia = ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"]
+                voz.text ="hoy es "+ dia[date.getDay()-1];
+            }  
+            
+            if(mensaje.includes('salir')|| mensaje.includes('Salir')){
+                voz.text ="hasta la próxima";
+                setTimeout(() => { cerrarSesion(); }, 1500);      
+            } 
+            
+            if(mensaje.includes('Mi nombre es Mauricio Javier mercado Suárez')|| mensaje.includes('Mauricio Javier mercado Suárez')){
+                voz.text = 'Listo Mauricio Javier mercado Suárez'
+            } 
+            
+            if(mensaje.includes('encender todas las lámparas') || mensaje.includes('encender todas las luces') || mensaje.includes('enciende todas las lámparas') || mensaje.includes('enciende todas las luces')){
+                voz.text = 'Listo!!!';
+                todo_on_off = true;
+                todo_ONOFF();
+            }
+            if(mensaje.includes('Apagar todas las lámparas')|| mensaje.includes('Apagar todas las luces')|| mensaje.includes('apaga todas las luces')|| mensaje.includes('apaga todas las lámparas')){
+                voz.text = 'Listo!!!';
+                todo_on_off = false;
+                todo_ONOFF();
+            }
+            
+            if(mensaje.includes('apágate') || mensaje.includes('reiníciate') || mensaje.includes('apaga te')){
+                voz.text = 'Hasta pronto...'
+                location.reload();
+            }
+            
+            voz.rate = 0.9;
+            window.speechSynthesis.speak(voz)
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute("data-theme");
+            const newTheme = currentTheme === "dark" ? "light" : "dark";
+            document.documentElement.setAttribute("data-theme", newTheme);
+            localStorage.setItem("theme", newTheme);
+            document.getElementById("theme-icon").setAttribute("data-lucide", newTheme === "dark" ? "sun" : "moon");
+            lucide.createIcons();
+        }
+
+        function inicializarAblyDashboard() {
+            ably = new Ably.Realtime({ key: ABLY_API_KEY, clientId: clientId });
+            ably.connection.on("connected", async () => {
+                document.getElementById('hw-status-dash').className = 'status-dot online';
+                document.getElementById('hw-text').innerText = "En línea";
+
+                canalControl = ably.channels.get(TOPIC_PUB);
+                canalEstado = ably.channels.get(TOPIC_SUB);
+
+                await canalEstado.subscribe((msg) => {
+                    let payload = msg.data;
+                    if (payload instanceof ArrayBuffer || ArrayBuffer.isView(payload)) {
+                        payload = new TextDecoder().decode(payload);
+                    }
+
+                    if(payload === "ESP32:ONLINE") {
+                        document.getElementById('hw-status-dash').className = 'status-dot online';
+                        document.getElementById('hw-text').innerText = "En línea";
+                        return;
+                    }
+                    if (payload === "ESP32:OFFLINE") {
+                        alert("Alerta: Se perdió la comunicación con el hardware.");
+                        cerrarSesion();
+                        return;
+                    }
+
+                    if (payload.includes(",")) {
+                        let datos = payload.split(",");
+                        if (datos.length === 8) {
+                            for (let i = 0; i < 8; i++) {
+                                let num = i + 1;
+                                let estaEncendido = (datos[i] === "1");
+                                estadosLamparas[i] = estaEncendido;
+                                const card = document.getElementById(`L${num}`);
+                                const stateText = document.getElementById(`state_${num}`);
+                                if (card) card.classList.toggle('on', estaEncendido);
+                                if (stateText) stateText.textContent = estaEncendido ? 'Encendido' : 'Apagado';
+                            }
+                        }
+                    }
+                });
+                await canalControl.publish("comando", "PING");
+            });
+            ably.connection.on("disconnected", () => {
+                document.getElementById('hw-status-dash').className = 'status-dot';
+                document.getElementById('hw-text').innerText = "Desconectado";
+            });
+        }
+
+        async function toggleLampara(numero) {
+            const nuevoEstado = estadosLamparas[numero - 1] ? 0 : 1;
+            if(canalControl) {
+                await canalControl.publish("comando", `L${numero}:${nuevoEstado}`);
+            }
+        }
+        async function todo_ONOFF() {
+            if(todo_on_off) {
+                await canalControl.publish("comando", `TODO_ON`);
+            }else{
+                await canalControl.publish("comando", `TODO_OFF`); 
+            }
+        }        
+
+        function cerrarSesion() {
+            localStorage.removeItem("kelly_session");
+            localStorage.removeItem("refrescos_cuenta");
+            window.location.replace("login.html"); 
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <title>Domótica Kelly - Horarios</title>
+    <link rel="shortcut icon" href="imagenes/iconoMayKe_s.ico" type="image/x-icon" />
+    <style>
+        :root {
+            --bg-body: #070a13;
+            --card-bg: rgba(22, 32, 53, 0.65);
+            --card-border: rgba(255, 255, 255, 0.05);
+            --text-main: #f8fafc;
+            --text-muted: #64748b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --primary: #3b82f6;
+            --box-luz-bg: rgba(13, 20, 35, 0.6);
+            --sidebar-bg: #0f172a;
+            --overlay-bg: rgba(5, 8, 16, 0.8);
+            --glass-glow: rgba(59, 130, 246, 0.1);
+            --picker-bg: rgba(15, 23, 42, 0.95);
+        }
+        [data-theme="light"] {
+            --bg-body: #f8fafc;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-border: rgba(15, 23, 42, 0.06);
+            --text-main: #0f172a;
+            --text-muted: #94a3b8;
+            --box-luz-bg: #f1f5f9;
+            --sidebar-bg: #ffffff;
+            --overlay-bg: rgba(0, 0, 0, 0.35);
+            --glass-glow: rgba(59, 130, 246, 0.05);
+            --picker-bg: rgba(255, 255, 255, 0.98);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background: var(--bg-body); color: var(--text-main); min-height: 100vh; transition: background 0.3s, color 0.3s; }
+        
+        .btn-header-menu { background: var(--box-luz-bg); border: none; color: var(--text-main); width: 38px; height: 38px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .btn-header-menu:hover { transform: scale(1.05); background: rgba(148, 163, 184, 0.2); }
+
+        .nav-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--overlay-bg); backdrop-filter: blur(6px); z-index: 1001; opacity: 0; transition: opacity 0.3s; }
+        .nav-overlay.show { display: block; opacity: 1; }
+
+        /* --- MENÚ LATERAL --- */
+        .sidebar-menu { position: fixed; top: 0; left: -280px; width: 280px; height: 100vh; background: var(--sidebar-bg); z-index: 1002; display: flex; flex-direction: column; padding: 25px 20px; box-shadow: 5px 0 25px rgba(0,0,0,0.3); transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .sidebar-menu.open { left: 0; }
+        .sidebar-header { display: flex; align-items: center; justify-content: space-between; padding-bottom: 20px; margin-bottom: 20px; border-bottom: 1px solid var(--card-border); }
+        .sidebar-title { font-size: 22px; font-weight: 700; color: var(--text-main); letter-spacing: -0.5px; }
+        .btn-close { background: transparent; border: none; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .btn-close:hover { color: var(--danger); }
+        .nav-items-container { display: flex; flex-direction: column; gap: 10px; }
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 14px 18px; color: var(--text-muted); text-decoration: none; border-radius: 12px; font-size: 15px; font-weight: 600; transition: all 0.2s ease; background: transparent; border: none; cursor: pointer; width: 100%; justify-content: flex-start; }
+        .nav-item:hover, .nav-item.active { background: var(--box-luz-bg); color: var(--text-main); }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .main-layout { display: flex; justify-content: center; align-items: center; padding: 20px 15px; min-height: 100vh; }
+        .container { width: 100%; max-width: 480px; background: var(--card-bg); border: 1px solid var(--card-border); padding: 25px 20px; border-radius: 28px; box-shadow: 0 30px 60px rgba(0,0,0,0.2); backdrop-filter: blur(24px); transition: background 0.3s, border 0.3s; }
+        
+        .header-panel { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .user-profile { display: flex; align-items: center; gap: 12px; }
+        .avatar-familiar { width: 46px; height: 46px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); }
+        .user-info h2 { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; }
+        .user-info p { font-size: 12px; color: var(--text-muted); }
+
+        .actions-top { display: flex; align-items: center; gap: 8px; }
+        .btn-action-icon { background: var(--box-luz-bg); border: none; color: var(--text-main); width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .btn-action-icon:hover { transform: scale(1.05); background: rgba(148, 163, 184, 0.2); }
+
+        .page-intro { margin-bottom: 24px; background: var(--box-luz-bg); padding: 16px; border-radius: 16px; border-left: 4px solid var(--primary); }
+        .page-intro h3 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+        .page-intro p { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+
+        /* --- CONTENEDOR DE TARJETAS --- */
+        .list-horarios { display: flex; flex-direction: column; gap: 16px; }
+        
+        .card-horario { 
+            background: var(--box-luz-bg); 
+            border: 1px solid var(--card-border); 
+            padding: 20px; 
+            border-radius: 22px; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
+        
+        .card-horario.locked {
+            background: rgba(13, 20, 35, 0.35);
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+        .card-horario.locked .horario-icon {
+            color: var(--success);
+            background: rgba(16, 185, 129, 0.1);
+        }
+        .card-horario.locked .lock-indicator { color: var(--success); }
+        .card-horario.locked .display-time-btn { cursor: not-allowed; border-color: transparent; background: transparent; }
+
+        .schedule-top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .horario-info-box { display: flex; align-items: center; gap: 14px; }
+        
+        .horario-icon { 
+            width: 42px; 
+            height: 42px; 
+            background: var(--card-bg); 
+            border-radius: 12px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: var(--primary);
+            transition: all 0.3s;
+        }
+        
+        .horario-detalles h4 { font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+        .lock-indicator { display: flex; align-items: center; color: var(--text-muted); transition: color 0.3s; }
+
+        /* Toggle Switch */
+        .switch { position: relative; display: inline-block; width: 48px; height: 26px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(148, 163, 184, 0.3); transition: .3s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 26px; }
+        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background-color: white; transition: .3s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        input:checked + .slider { background-color: var(--success); }
+        input:checked + .slider:before { transform: translateX(22px); }
+
+        /* --- INTERFAZ DE TIEMPO --- */
+        .time-inputs-row { display: flex; gap: 12px; }
+        .time-block { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+        .time-block label { font-size: 11px; font-weight: 700; color: var(--text-muted); display: flex; align-items: center; gap: 4px; text-transform: uppercase; }
+        
+        .display-time-btn {
+            width: 100%;
+            padding: 12px;
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            color: var(--text-main);
+            font-size: 16px;
+            font-weight: 700;
+            text-align: center;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+        .display-time-btn:hover:not(:disabled) {
+            border-color: var(--primary);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        /* --- TIMEPICKER MODERNO ESTILO RUEDA MÓVIL --- */
+        .modern-picker-panel {
+            display: none;
+            margin-top: 14px;
+            background: var(--picker-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 16px 14px;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.4);
+        }
+        .modern-picker-panel.open { display: block; animation: slideDown 0.2s ease-out; }
+
+        .picker-grid { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 12px; }
+        .picker-column { display: flex; flex-direction: column; align-items: center; width: 75px; }
+        .picker-column span { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; }
+        
+        /* Select transformado en Rueda Deslizante usando size */
+        .picker-select-wheel {
+            background: var(--bg-body);
+            color: var(--text-main);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            width: 100%;
+            font-size: 20px;
+            font-weight: 700;
+            outline: none;
+            text-align: center;
+            cursor: pointer;
+            overflow-y: auto;
+            scrollbar-width: none; /* Oculta barra en Firefox */
+        }
+        .picker-select-wheel::-webkit-scrollbar { display: none; } /* Oculta barra en Chrome/Safari */
+        
+        .picker-select-wheel option {
+            padding: 6px 0;
+            text-align: center;
+        }
+        .picker-select-wheel option:selected {
+            background: var(--primary) !important;
+            color: white;
+        }
+
+        .picker-separator { font-size: 26px; font-weight: 700; color: var(--text-muted); margin-top: 16px; }
+        
+        .ampm-btn-group { display: flex; flex-direction: column; gap: 6px; margin-top: 18px; }
+        .btn-ampm {
+            padding: 8px 12px;
+            border: 1px solid var(--card-border);
+            background: var(--bg-body);
+            color: var(--text-muted);
+            font-size: 11px;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-ampm.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .picker-footer { display: flex; justify-content: flex-end; margin-top: 6px; }
+        .btn-picker-done {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        .btn-picker-done:active { transform: scale(0.95); }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+    <script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+    <div class="nav-overlay" id="navOverlay" onclick="toggleMenu()"></div>
+
+    <!-- MENÚ LATERAL -->
+    <aside class="sidebar-menu" id="sidebarMenu">
+        <div class="sidebar-header">
+            <span class="sidebar-title">Menú Kelly</span>
+            <button class="btn-close" onclick="toggleMenu()"><i data-lucide="x"></i></button>
+        </div>
+        <div class="nav-items-container">
+            <button class="nav-item" onclick="window.location.href='dashboard.html'">
+                <i data-lucide="layout-dashboard"></i>
+                <span>Panel de Control</span>
+            </button>
+            <button class="nav-item active">
+                <i data-lucide="calendar"></i>
+                <span>Horarios Guardados</span>
+            </button>
+        </div>
+    </aside>
+
+    <main class="main-layout">
+        <div class="container">
+           <div class="header-panel">
+                <div class="user-profile">
+                    <button class="btn-header-menu" onclick="toggleMenu()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu"><path d="M4 5h16"></path><path d="M4 12h16"></path><path d="M4 19h16"></path></svg>
+                    </button>
+                    <img src="imagenes/familia.jpg" alt="Familia" class="avatar-familiar">
+                    <div class="user-info">
+                        <h2>Hogar Kelly</h2>
+                        <p>Automatización luces</p>
+                    </div>
+                </div>
+                <div class="actions-top">
+                    <button class="btn-action-icon" onclick="toggleTheme()">
+                        <i id="theme-icon" data-lucide="sun"></i>
+                    </button>
+                    <button class="btn-action-icon" onclick="cerrarSesion()" style="color: var(--danger)">
+                        <i data-lucide="log-out"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="page-intro">
+                <h3>Reglas Locales</h3>
+                <p>Apaga el interruptor, toca la hora para desplegar el selector de reloj moderno y configúrala a tu gusto.</p>
+            </div>
+
+            <!-- GRID DE AUTOMATIZACIONES -->
+            <div class="list-horarios">
+                
+                <!-- REGLA 1: FACHADA PRINCIPAL -->
+                <div id="card-fachada" class="card-horario">
+                    <div class="schedule-top-row">
+                        <div class="horario-info-box">
+                            <div class="horario-icon"><i data-lucide="home"></i></div>
+                            <div class="horario-detalles">
+                                <h4>
+                                    <span>Fachada Principal</span>
+                                    <span class="lock-indicator" id="lock-icon-fachada"><i data-lucide="unlock" size="14"></i></span>
+                                </h4>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="switch">
+                                <input type="checkbox" id="switch-fachada" onchange="toggleRegla('fachada', 'Fachada Principal', this)">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="time-inputs-row">
+                        <div class="time-block">
+                            <label><i data-lucide="sun" style="width:11px;"></i> Encendido</label>
+                            <button class="display-time-btn" id="btn-on-fachada" onclick="abrirRelojModerno('fachada', 'on')">##:## ##</button>
+                        </div>
+                        <div class="time-block">
+                            <label><i data-lucide="moon" style="width:11px;"></i> Apagado</label>
+                            <button class="display-time-btn" id="btn-off-fachada" onclick="abrirRelojModerno('fachada', 'off')">##:## ##</button>
+                        </div>
+                    </div>
+
+                    <!-- Panel Reloj Desplegable Interno Estilo Rueda Vertical -->
+                    <div class="modern-picker-panel" id="picker-fachada">
+                        <div class="picker-grid">
+                            <div class="picker-column">
+                                <span>Hora</span>
+                                <select class="picker-select-wheel" id="pick-h-fachada" size="4"></select>
+                            </div>
+                            <div class="picker-separator">:</div>
+                            <div class="picker-column">
+                                <span>Min</span>
+                                <select class="picker-select-wheel" id="pick-m-fachada" size="4"></select>
+                            </div>
+                            <div class="ampm-btn-group">
+                                <button class="btn-ampm" id="ampm-am-fachada" onclick="setAMPM('fachada', 'AM')">AM</button>
+                                <button class="btn-ampm" id="ampm-pm-fachada" onclick="setAMPM('fachada', 'PM')">PM</button>
+                            </div>
+                        </div>
+                        <div class="picker-footer">
+                            <button class="btn-picker-done" onclick="cerrarRelojModerno('fachada')">Listo</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- REGLA 2: PATIO TRASERO -->
+                <div id="card-patio" class="card-horario">
+                    <div class="schedule-top-row">
+                        <div class="horario-info-box">
+                            <div class="horario-icon"><i data-lucide="trees"></i></div>
+                            <div class="horario-detalles">
+                                <h4>
+                                    <span>Patio Trasero</span>
+                                    <span class="lock-indicator" id="lock-icon-patio"><i data-lucide="unlock" size="14"></i></span>
+                                </h4>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="switch">
+                                <input type="checkbox" id="switch-patio" onchange="toggleRegla('patio', 'Patio Trasero', this)">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="time-inputs-row">
+                        <div class="time-block">
+                            <label><i data-lucide="sun" style="width:11px;"></i> Encendido</label>
+                            <button class="display-time-btn" id="btn-on-patio" onclick="abrirRelojModerno('patio', 'on')">##:## ##</button>
+                        </div>
+                        <div class="time-block">
+                            <label><i data-lucide="moon" style="width:11px;"></i> Apagado</label>
+                            <button class="display-time-btn" id="btn-off-patio" onclick="abrirRelojModerno('patio', 'off')">##:## ##</button>
+                        </div>
+                    </div>
+
+                    <!-- Panel Reloj Desplegable Interno Estilo Rueda Vertical -->
+                    <div class="modern-picker-panel" id="picker-patio">
+                        <div class="picker-grid">
+                            <div class="picker-column">
+                                <span>Hora</span>
+                                <select class="picker-select-wheel" id="pick-h-patio" size="4"></select>
+                            </div>
+                            <div class="picker-separator">:</div>
+                            <div class="picker-column">
+                                <span>Min</span>
+                                <select class="picker-select-wheel" id="pick-m-patio" size="4"></select>
+                            </div>
+                            <div class="ampm-btn-group">
+                                <button class="btn-ampm" id="ampm-am-patio" onclick="setAMPM('patio', 'AM')">AM</button>
+                                <button class="btn-ampm" id="ampm-pm-patio" onclick="setAMPM('patio', 'PM')">PM</button>
+                            </div>
+                        </div>
+                        <div class="picker-footer">
+                            <button class="btn-picker-done" onclick="cerrarRelojModerno('patio')">Listo</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const ABLY_API_KEY = "jg4T3w.pYvemQ:S6Vhw3e_UP6L7VjoT2h6SV1MOjkjjGFS6jk93p7Ttpw"; 
+        const TOPIC_PUB = "channels:kelly:control:luces"; 
+        const TOPIC_SUB = "channels:kelly:estado:luces";
+        let ably, canalControl, canalEstado;
+
+        let tempAMPM = { fachada: 'PM', patio: 'PM' };
+        let currentEditingType = { fachada: 'on', patio: 'on' };
+
+        window.onload = () => {
+            const savedTheme = localStorage.getItem("theme") || "dark";
+            document.documentElement.setAttribute("data-theme", savedTheme);
+            document.getElementById("theme-icon").setAttribute("data-lucide", savedTheme === "dark" ? "sun" : "moon");
+            
+            // Llenar las ruedas (Horas de 01 a 12 y Minutos completos de 00 a 59)
+            ['fachada', 'patio'].forEach(p => {
+                const hSel = document.getElementById(`pick-h-${p}`);
+                const mSel = document.getElementById(`pick-m-${p}`);
+                
+                for(let i=1; i<=12; i++) {
+                    let opt = document.createElement('option');
+                    opt.value = i.toString().padStart(2,'0'); opt.innerText = opt.value;
+                    hSel.appendChild(opt);
+                }
+                // Minutos del 00 al 59 completos uno a uno
+                for(let i=0; i<=59; i++) { 
+                    let opt = document.createElement('option');
+                    opt.value = i.toString().padStart(2,'0'); opt.innerText = opt.value;
+                    mSel.appendChild(opt);
+                }
+            });
+
+            lucide.createIcons();
+
+            if (localStorage.getItem("kelly_session") !== "activa") {
+                window.location.replace("login.html");
+                return;
+            }
+            
+            ably = new Ably.Realtime({ key: ABLY_API_KEY, clientId: "web_sched_" + Math.random().toString(16).substr(2, 4) });
+            ably.connection.on("connected", async () => {
+                canalControl = ably.channels.get(TOPIC_PUB);
+                canalEstado = ably.channels.get(TOPIC_SUB);
+
+                await canalEstado.subscribe((msg) => {
+                    let payload = msg.data;
+                    if (payload instanceof ArrayBuffer || ArrayBuffer.isView(payload)) {
+                        payload = new TextDecoder().decode(payload);
+                    }
+                    if (payload.startsWith("HORARIOS:")) {
+                        aplicarHorariosRecibidos(payload.substring("HORARIOS:".length));
+                    }
+                });
+                // Pide al ESP32 que envíe los horarios reales guardados en su memoria NVS
+                await canalControl.publish("comando", "PING");
+            });
+        };
+
+        // Traduce "HH:MM" (24h) a texto "hh:mm AM/PM" para mostrarlo en los botones
+        function formatear12h(hora24, min) {
+            let h = parseInt(hora24, 10);
+            const ampm = h >= 12 ? 'PM' : 'AM';
+            h = h % 12;
+            if (h === 0) h = 12;
+            return `${h.toString().padStart(2,'0')}:${min} ${ampm}`;
+        }
+
+        // Aplica la trama "FACHADA_PRINCIPAL:1:ON:18:30|OFF:06:00;PATIO_TRASERO:0:ON:19:00|OFF:05:30"
+        function aplicarHorariosRecibidos(trama) {
+            const reglas = trama.split(";");
+            reglas.forEach(regla => {
+                if (!regla) return;
+                const partes = regla.split(":");
+                // partes: [AREA, HAB, "ON", HH, "MM|OFF", HH, MM]
+                const area = partes[0];
+                const habilitado = partes[1] === "1";
+                const onOffTexto = regla.substring(regla.indexOf(":ON:") + 4); // "HH:MM|OFF:HH:MM"
+                const [onParte, offParte] = onOffTexto.split("|OFF:");
+                const [onH, onM] = onParte.split(":");
+                const [offH, offM] = offParte.split(":");
+
+                const prefijo = area === "FACHADA_PRINCIPAL" ? "fachada" : (area === "PATIO_TRASERO" ? "patio" : null);
+                if (!prefijo) return;
+
+                document.getElementById(`btn-on-${prefijo}`).innerText = formatear12h(onH, onM);
+                document.getElementById(`btn-off-${prefijo}`).innerText = formatear12h(offH, offM);
+
+                const switchEl = document.getElementById(`switch-${prefijo}`);
+                if (switchEl) {
+                    switchEl.checked = habilitado;
+                    toggleReglaVisual(prefijo, habilitado);
+                }
+            });
+        }
+
+        // Igual que toggleRegla() pero sin publicar a Ably (solo actualiza la UI al recibir datos del ESP32)
+        function toggleReglaVisual(prefijo, habilitado) {
+            const card = document.getElementById(`card-${prefijo}`);
+            const lockIconBox = document.getElementById(`lock-icon-${prefijo}`);
+            const btnOn = document.getElementById(`btn-on-${prefijo}`);
+            const btnOff = document.getElementById(`btn-off-${prefijo}`);
+
+            if (habilitado) {
+                card.classList.add("locked");
+                btnOn.disabled = true; btnOff.disabled = true;
+                lockIconBox.innerHTML = '<i data-lucide="lock" size="14"></i>';
+            } else {
+                card.classList.remove("locked");
+                btnOn.disabled = false; btnOff.disabled = false;
+                lockIconBox.innerHTML = '<i data-lucide="unlock" size="14"></i>';
+            }
+            lucide.createIcons();
+        }
+
+        function toggleMenu() {
+            const sidebar = document.getElementById("sidebarMenu");
+            const overlay = document.getElementById("navOverlay");
+            sidebar.classList.toggle("open");
+            overlay.classList.toggle("show", sidebar.classList.contains("open"));
+        }
+
+        function abrirRelojModerno(prefijo, tipo) {
+            currentEditingType[prefijo] = tipo;
+            const btnText = document.getElementById(`btn-${tipo}-${prefijo}`).innerText; 
+            
+            const [horaMin, ampm] = btnText.split(" ");
+            const [h, m] = horaMin.split(":");
+
+            const hSel = document.getElementById(`pick-h-${prefijo}`);
+            const mSel = document.getElementById(`pick-m-${prefijo}`);
+
+            hSel.value = h;
+            mSel.value = m;
+            setAMPM(prefijo, ampm);
+
+            document.getElementById(`picker-${prefijo}`).classList.add("open");
+
+            // Auto-desplazar de forma fluida hacia el elemento seleccionado en la rueda
+            setTimeout(() => {
+                if(hSel.selectedIndex >= 0) hSel.options[hSel.selectedIndex].scrollIntoView({ block: 'center' });
+                if(mSel.selectedIndex >= 0) mSel.options[mSel.selectedIndex].scrollIntoView({ block: 'center' });
+            }, 40);
+        }
+
+        function setAMPM(prefijo, valor) {
+            tempAMPM[prefijo] = valor;
+            document.getElementById(`ampm-am-${prefijo}`).classList.toggle("active", valor === 'AM');
+            document.getElementById(`ampm-pm-${prefijo}`).classList.toggle("active", valor === 'PM');
+        }
+
+// GUARDADO INMEDIATO AL SELECCIONAR "LISTO" Y ENVÍO AUTOMÁTICO SI ESTÁ ACTIVO
+function cerrarRelojModerno(prefijo) {
+    const h = document.getElementById(`pick-h-${prefijo}`).value;
+    const m = document.getElementById(`pick-m-${prefijo}`).value;
+    const ampm = tempAMPM[prefijo];
+    const tipo = currentEditingType[prefijo];
+
+    // 1. Renderizar la nueva hora bonita en el botón correspondiente
+    document.getElementById(`btn-${tipo}-${prefijo}`).innerText = `${h}:${m} ${ampm}`;
+    
+    // Ocultar el panel del reloj
+    document.getElementById(`picker-${prefijo}`).classList.remove("open");
+    console.log(`Cambio guardado localmente para ${prefijo} (${tipo}): ${h}:${m} ${ampm}`);
+
+    // 2. DETECTAR SI LA REGLA ESTÁ ACTIVA PARA ENVIAR EL DATO POR MQTT/ABLY DE INMEDIATO
+    const switchEl = document.getElementById(`switch-${prefijo}`);
+    if (switchEl && switchEl.checked) {
+        // Obtenemos los botones de esa tarjeta específica
+        const btnOn = document.getElementById(`btn-on-${prefijo}`);
+        const btnOff = document.getElementById(`btn-off-${prefijo}`);
+        
+        // Traducimos el texto visual (ej: "06:30 PM") a formato de 24 horas
+        const horaOn24 = obtenerHora24(btnOn.innerText);
+        const horaOff24 = obtenerHora24(btnOff.innerText);
+        
+        // Obtenemos el nombre real del área
+        let areaNombre = prefijo === 'fachada' ? 'Fachada Principal' : 'Patio Trasero';
+
+        console.log(`¡Transmitiendo actualización en tiempo real para ${areaNombre}! [ON: ${horaOn24} | OFF: ${horaOff24}]`);
+        // Enviamos la trama actualizada con estado "1" (habilitado)
+        enviarDatosAbly(areaNombre, "1", horaOn24, horaOff24);
+    }
+}
+
+        function obtenerHora24(texto12h) {
+            const [horaMin, ampm] = texto12h.split(" ");
+            let [h, m] = horaMin.split(":");
+            let hora = parseInt(h, 10);
+            if (ampm === "PM" && hora < 12) hora += 12;
+            if (ampm === "AM" && hora === 12) hora = 0;
+            return `${hora.toString().padStart(2, '0')}:${m}`;
+        }
+
+        function toggleRegla(prefijo, areaNombre, switchEl) {
+            const card = document.getElementById(`card-${prefijo}`);
+            const lockIconBox = document.getElementById(`lock-icon-${prefijo}`);
+            const btnOn = document.getElementById(`btn-on-${prefijo}`);
+            const btnOff = document.getElementById(`btn-off-${prefijo}`);
+            
+            if (switchEl.checked) {
+                card.classList.add("locked");
+                btnOn.disabled = true; btnOff.disabled = true;
+                document.getElementById(`picker-${prefijo}`).classList.remove("open"); 
+                lockIconBox.innerHTML = '<i data-lucide="lock" size="14"></i>';
+                
+                const horaOn24 = obtenerHora24(btnOn.innerText);
+                const horaOff24 = obtenerHora24(btnOff.innerText);
+
+                enviarDatosAbly(areaNombre, "1", horaOn24, horaOff24);
+            } else {
+                card.classList.remove("locked");
+                btnOn.disabled = false; btnOff.disabled = false;
+                lockIconBox.innerHTML = '<i data-lucide="unlock" size="14"></i>';
+                
+                const horaOn24 = obtenerHora24(btnOn.innerText);
+                const horaOff24 = obtenerHora24(btnOff.innerText);
+                enviarDatosAbly(areaNombre, "0", horaOn24, horaOff24);
+            }
+            lucide.createIcons();
+        }
+
+        async function enviarDatosAbly(area, habilitado, on, off) {
+            if(canalControl) {
+                const comandoTrama = `${area.toUpperCase().replace(" ", "_")}:${habilitado}:ON:${on}|OFF:${off}`;
+                await canalControl.publish("horario_regla", comandoTrama);
+                console.log("Publicado con éxito al ESP32:", comandoTrama);
+            }
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute("data-theme");
+            const newTheme = currentTheme === "dark" ? "light" : "dark";
+            document.documentElement.setAttribute("data-theme", newTheme);
+            localStorage.setItem("theme", newTheme);
+            document.getElementById("theme-icon").setAttribute("data-lucide", newTheme === "dark" ? "sun" : "moon");
+            lucide.createIcons();
+        }
+
+        function cerrarSesion() {
+            localStorage.removeItem("kelly_session");
+            window.location.replace("login.html"); 
+        }
+    </script>
+</body>
+</html>
