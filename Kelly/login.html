@@ -119,8 +119,7 @@
             <span id="btn-text">Esperando Placa...</span>
         </button>
     </div>
-
-    <script>
+<script>
         const ABLY_API_KEY = "jg4T3w.VZyJ8A:WIK91N6Jp_B422bXl9HwfKXM7SPTztmmeSh_-SRyCi8";
         const TOPIC_SUB = "channels:kelly:estado:auth"; 
         const TOPIC_PUB = "channels:kelly:control:auth"; 
@@ -177,6 +176,15 @@
                     let payload = msg.data;
                     if (payload instanceof ArrayBuffer || ArrayBuffer.isView(payload)) {
                         payload = new TextDecoder().decode(payload);
+                        console.log("recibido de Placa");
+                        console.log(payload);
+                        var splitted = payload.toString().split(":");
+                        var c1 = splitted[0];
+                        var c2 = splitted[1];
+                        var c3 = splitted[2];
+                        var c4 = splitted[3];
+                        var c5 = splitted[4];
+                        var link_
                     }
 
                     if (payload === "ESP32:ONLINE") {
@@ -185,16 +193,20 @@
                     else if (payload === "ESP32:OFFLINE") {
                         marcarPlacaOffline("Placa fuera de línea");
                     }
-                    else if (payload === "AUTH:OK") {
-                        localStorage.setItem("kelly_session", "activa");
-                        localStorage.setItem("refrescos_cuenta", "0"); 
-                        window.location.replace("dashboard.html");
-                    } 
                     else if (payload === "AUTH:ERROR") {
                         document.getElementById('error-text').innerText = "Credenciales incorrectas.";
                         document.getElementById('error-box').style.display = 'flex';
                         marcarPlacaOnline();
                     }
+                    if (c1 === "AUTH") {
+                        if(c2 === "OK"){
+                            localStorage.setItem(c5, "activa");
+                            localStorage.setItem("refrescos_cuenta", "0"); 
+                            link_ = c3 + c4;
+                            window.location.replace(link_);
+                        }
+                    } 
+                    
                 });
                 await canalControl.publish("comando", "PING");
             });
